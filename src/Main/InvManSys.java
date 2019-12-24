@@ -12,7 +12,7 @@ public class InvManSys extends Application {
     @Override
     public void start(Stage stage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("InvManSys.fxml"));
-        Scene scene = new Scene(root, 800, 400);
+        Scene scene = new Scene(root, 800, 425);
         stage.setTitle("Inventory Management System");
         stage.setScene(scene);
         stage.show();
