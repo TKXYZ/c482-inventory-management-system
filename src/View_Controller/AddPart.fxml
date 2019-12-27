@@ -3,14 +3,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
-<AnchorPane prefHeight="360.0" prefWidth="380.0" style="-fx-background-color: #EEEEEE;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.ModifyPartUIController">
-   <Label layoutX="18.0" layoutY="18.0" text="Modify Part">
+<AnchorPane prefHeight="360.0" prefWidth="380.0" style="-fx-background-color: #EEEEEE;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AddPartController">
+   <Label layoutX="18.0" layoutY="18.0" text="Add Part">
       <font>
          <Font name="System Bold" size="18.0" />
       </font>
    </Label>
-   <RadioButton layoutX="194.0" layoutY="23.0" mnemonicParsing="false" text="In-House" />
-   <RadioButton layoutX="271.0" layoutY="23.0" mnemonicParsing="false" text="Outsourced" />
+   <RadioButton fx:id="inHouseRadio" layoutX="194.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#inHouseRadioEvent" text="In-House" />
+   <RadioButton fx:id="outsourcedRadio" layoutX="271.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#outsourcedRadioEvent" text="Outsourced" />
    <Label layoutX="55.0" layoutY="81.0" text="ID" />
    <TextField layoutX="152.0" layoutY="77.0" prefWidth="160.0" promptText="Product ID">
       <font>
@@ -21,7 +21,6 @@
    <Label layoutX="35.0" layoutY="160.0" text="Inventory" />
    <Label layoutX="33.0" layoutY="200.0" text="Price/Cost" />
    <Label layoutX="49.0" layoutY="242.0" text="Max" />
-   <Label layoutX="248.0" layoutY="242.0" text="Min" />
    <Label layoutX="18.0" layoutY="282.0" text="Company Name" />
    <TextField layoutX="152.0" layoutY="115.0" prefWidth="160.0" promptText="Product Name">
       <font>
@@ -35,6 +34,7 @@
       <font>
          <Font name="System Italic" size="12.0" />
       </font></TextField>
+   <Label layoutX="248.0" layoutY="242.0" text="Min" />
    <TextField layoutX="152.0" layoutY="278.0" prefWidth="160.0" promptText="Company Name">
       <font>
          <Font name="System Italic" size="12.0" />

@@ -1,22 +1,14 @@
-package Main;
+package Model;
 
-public abstract class Part extends Inventory {
+public abstract class Part {
+
+    // Part members
     protected int partID;
     protected String partName;
     protected double partPrice;
     protected int partStock;
     protected int partMin;
     protected int partMax;
-
-    // Part constructor
-    public Part(int partID, String partName, double partPrice, int partStock, int partMin, int partMax) {
-        this.partID = partID;
-        this.partName = partName;
-        this.partPrice = partPrice;
-        this.partStock = partStock;
-        this.partMax = partMin;
-        this.partMin = partMax;
-    }
 
     // Part getters
     public int getPartID() {

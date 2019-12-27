@@ -1,24 +1,26 @@
-package Main;
+package Model;
 
-import javafx.collections.ObservableList;
+import java.util.ArrayList;
 
-public class Product extends Inventory {
+public class Product {
+
+    // Product members
     private int productID;
     private String productName;
     private double productPrice;
     private int productStock;
     private int productMin;
     private int productMax;
-    private ObservableList<Part> associatedParts;
+    private ArrayList<Part> associatedParts = new ArrayList<>(); // Parts associated with a product
 
     // Product constructor
     public Product(int productID, String productName, double productPrice, int productStock, int productMin, int productMax) {
-        this.productID = productID;
-        this.productName = productName;
-        this.productPrice = productPrice;
-        this.productStock = productStock;
-        this.productMin = productMin;
-        this.productMax = productMax;
+        setProductID(productID);
+        setProductName(productName);
+        setProductPrice(productPrice);
+        setProductStock(productStock);
+        setProductMin(productMin);
+        setProductMax(productMax);
     }
 
     // Product getters
@@ -61,15 +63,27 @@ public class Product extends Inventory {
         this.productMax = productMax;
     }
 
-    public void addAssociatedPart(ObservableList<Part> associatedParts) {
-        this.associatedParts = associatedParts;
+    // Methods for Parts that associate with Products
+    public void addAssociatedPart(Part associatedPartToAdd) {
+        associatedParts.add(associatedPartToAdd);
     }
 
-    public boolean deleteAssociatedPart(ObservableList<Part> associatedParts) {
-        return true;
+    public boolean deleteAssociatedPart (Part associatedPartToDelete) {
+        for (int i = 0; i < associatedParts.size(); i++) {
+            if (associatedParts.get(i) == associatedPartToDelete) {
+                associatedParts.remove(i);
+                return true;
+            }
+        }
+        return false;
     }
 
-    public ObservableList<Part> getAllAssociatedParts() {
-        return associatedParts;
+    public Part getAssociatedParts(int associatedPartToSearch) {
+        for (int i = 0; i < associatedParts.size(); i++) {
+            if (associatedParts.get(i).getPartID() == associatedPartToSearch) {
+                return associatedParts.get(i);
+            }
+        }
+        return null;
     }
 }

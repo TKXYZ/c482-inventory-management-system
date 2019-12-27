@@ -4,8 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="800.0" style="-fx-background-color: #EEEEEE;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.InvManSysController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="800.0" style="-fx-background-color: #EEEEEE;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.MainScreenController">
     <Label layoutX="14.0" layoutY="24.0" text="Inventory Management System">
         <font>
           <Font name="System Bold" size="24.0" />
@@ -30,34 +29,37 @@
                 <Insets left="10.0" />
             </GridPane.margin>
         </Label>
-        <Button mnemonicParsing="false" text="Search" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+        <Button fx:id="searchPartBtn" mnemonicParsing="false" onMouseClicked="#searchPartBtnEvent" text="Search" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
             <GridPane.margin>
                 <Insets />
             </GridPane.margin>
         </Button>
-        <TextField promptText="Part name" GridPane.columnIndex="2">
+        <TextField fx:id="partSearchBox" promptText="Part Name" GridPane.columnIndex="2">
             <GridPane.margin>
                 <Insets left="5.0" right="10.0" />
             </GridPane.margin>
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
         </TextField>
         <HBox alignment="CENTER" prefHeight="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-            <Button mnemonicParsing="false" text="Add" textAlignment="CENTER">
+            <Button fx:id="addPartBtn" mnemonicParsing="false" onMouseClicked="#addPartBtnEvent" text="Add" textAlignment="CENTER">
                 <HBox.margin>
                     <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                 </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Modify" textAlignment="CENTER">
+            <Button fx:id="updatePartBtn" mnemonicParsing="false" onMouseClicked="#updatePartBtnEvent" text="Modify" textAlignment="CENTER">
                 <HBox.margin>
                     <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                 </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Delete" textAlignment="CENTER">
+            <Button fx:id="deletePartBtn" mnemonicParsing="false" onMouseClicked="#deletePartBtnEvent" text="Delete" textAlignment="CENTER">
                 <HBox.margin>
                     <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                 </HBox.margin>
             </Button>
         </HBox>
-        <TableView prefHeight="222.0" prefWidth="370.0" GridPane.columnSpan="3" GridPane.rowIndex="1">
+        <TableView fx:id="partsTable" prefHeight="222.0" prefWidth="370.0" GridPane.columnSpan="3" GridPane.rowIndex="1">
             <columns>
                 <TableColumn prefWidth="50.0" text="ID" />
                 <TableColumn prefWidth="160.0" text="Name" />
@@ -85,13 +87,16 @@
                 <Insets left="10.0" />
             </GridPane.margin>
         </Label>
-        <Button mnemonicParsing="false" text="Button" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
-        <TextField promptText="Product name" GridPane.columnIndex="2">
+        <Button fx:id="searchProductBtn" mnemonicParsing="false" onMouseClicked="#searchProductBtnEvent" text="Search" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+        <TextField fx:id="productSearchBox" promptText="Product Name" GridPane.columnIndex="2">
             <GridPane.margin>
                 <Insets left="5.0" right="10.0" />
             </GridPane.margin>
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
         </TextField>
-        <TableView prefHeight="222.0" prefWidth="370.0" GridPane.columnSpan="3" GridPane.rowIndex="1">
+        <TableView fx:id="productsTable" prefHeight="222.0" prefWidth="370.0" GridPane.columnSpan="3" GridPane.rowIndex="1">
             <columns>
                 <TableColumn prefWidth="50.0" text="ID" />
                 <TableColumn prefWidth="168.0" text="Name" />
@@ -100,17 +105,17 @@
             </columns>
         </TableView>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-            <Button mnemonicParsing="false" text="Add">
+            <Button fx:id="addProductBtn" mnemonicParsing="false" onMouseClicked="#addProductBtnEvent" text="Add">
                 <HBox.margin>
                     <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                 </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Modify">
+            <Button fx:id="updateProductBtn" mnemonicParsing="false" onMouseClicked="#updateProductBtnEvent" text="Modify">
                 <HBox.margin>
                     <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                 </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Delete">
+            <Button fx:id="deleteProductBtn" mnemonicParsing="false" onMouseClicked="#deleteProductBtnEvent" text="Delete">
                 <HBox.margin>
                     <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                 </HBox.margin>
