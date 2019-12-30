@@ -7,19 +7,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
 public class InventoryProgram extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../View_Controller/MainScreen.fxml"));
-        Scene scene = new Scene(root, 800, 425);
-        stage.setTitle("Inventory Management System");
+    public void start(Stage stage) throws Exception {
+
+        Parent rootLayout = FXMLLoader.load(getClass().getResource("../View_Controller/MainScreen.fxml")); // FXMLLoader loads FXML file containing GUI components
+        Scene scene = new Scene(rootLayout, 800, 425); // creates Scene using GUI components found within the rootNode (AnchorPane is base layout)
         stage.setScene(scene);
+        stage.setTitle("Inventory Management System");
         stage.setResizable(false);
         stage.show();
 
-        // creates new Inventory and adds test data
         Inventory inv = new Inventory();
         addTestData(inv);
     }
@@ -64,3 +63,20 @@ public class InventoryProgram extends Application {
         launch(args);
     }
 }
+
+/* ----- Notes -----
+    start() is main entry point for all JavaFX applications.
+    Stage is top-level container representing a window; Scene is the container for all content displayed within the window.
+        Tip: Set scene width and height when creating it.
+            Scene scene = new Scene(rootNode, 800, 425);
+    Parent signals the base class for all nodes that have children in the scene graph.
+        Handles all hierarchical scene graph operations (adding/removing child nodes).
+    FXML is an XML-based language that provides the structure for building a UI separate from the  application logic of our code.
+        It includes code for setting up application main class and for defining the stage and scene, so we must link it to this .java file.
+        In this case, the rootNode (MainScreen.fxml) includes an AnchorPane layout.
+    FXMLLoader class responsible for loading the FXML file and returning the resulting object graph.
+        Parent rootNode = FXMLLoader.load(getClass().getResource("../View_Controller/MainScreen.fxml"));
+
+    Assigning an fx:id to an element creates a variable in the doc's namespace, so you can refer to it from somewhere else.
+    @FXML used to tag non-public controller member variables and handler methods for use by FXML markup.
+ */

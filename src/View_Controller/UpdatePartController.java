@@ -6,26 +6,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class AddProductController {
+public class UpdatePartController {
 
-    public Button addProductBtn;
-    public Button deleteProductBtn;
-    public Button productSearchBtn;
     public Button saveBtn;
     public Button cancelBtn;
-    public TextField productSearchBox;
-
-    public void addProductBtnAction(ActionEvent event) {
-    }
-
-    public void deleteProductBtnAction(ActionEvent event) {
-    }
-
-    public void productSearchBtnAction(ActionEvent event) {
-    }
 
     public void saveBtnAction(ActionEvent event) {
     }

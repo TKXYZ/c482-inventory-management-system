@@ -3,114 +3,147 @@ package View_Controller;
 import Model.Inventory;
 import Model.Part;
 import Model.Product;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
+// MainScreenController sits behind the Main Screen and Controls Events
 public class MainScreenController {
 
-    // Class Member Declarations
     Inventory inv;
-
-    @FXML
     public Button addPartBtn;
-    @FXML
-    public Button addProductBtn;
-    @FXML
     public Button deletePartBtn;
-    @FXML
-    public Button deleteProductBtn;
-    @FXML
     public Button updatePartBtn;
-    @FXML
-    public Button updateProductBtn;
-    @FXML
     public Button searchPartBtn;
-    @FXML
+    public Button addProductBtn;
+    public Button deleteProductBtn;
+    public Button updateProductBtn;
     public Button searchProductBtn;
-    @FXML
     public TextField partSearchBox;
-    @FXML
     public TextField productSearchBox;
-    @FXML
-    public TableView partsTable;
-    @FXML
-    public TableView productsTable;
+    public TableView<Part> partsTable;
+    public TableView<Product> productsTable;
     private ObservableList<Part> partInventory = FXCollections.observableArrayList();
     private ObservableList<Product> productInventory = FXCollections.observableArrayList();
-    private ObservableList<Part> partsInventorySearch = FXCollections.observableArrayList();
-    private ObservableList<Product> productsInventorySearch = FXCollections.observableArrayList();
+    private ObservableList<Part> partInventorySearch = FXCollections.observableArrayList();
+    private ObservableList<Product> productInventorySearch = FXCollections.observableArrayList();
 
-    // MainScreenController constructor
-    public MainScreenController(Inventory inv) {
-        this.inv = inv;
-    }
+//    // MainScreenController Constructor; NOT SURE WHY THIS CRASHES APP
+//    public MainScreenController(Inventory inv) {
+//        this.inv = inv;
+//    }
 
-    // initializes MainScreenController Class
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        generatePartsTable;
-        generateProductsTable;
-    }
-
-    public void generatePartsTable() {
-        partInventory.setAll(inv.getAllParts());
-
-        TableColumn<Part, Double> costCol = formatPrice();
-        partsTable.getColumns().addAll(costCol);
-
-        partsTable.setItems(partInventory);
-        partsTable.refresh();
-    }
-
-    public void generateProductsTable() {
-        productInventory.setAll(inv.getAllProducts());
-
-        TableColumn<Product, Double> costCol = formatPrice();
-        productsTable.getColumns().addAll(costCol);
-
-        productsTable.setItems(productInventory);
-        productsTable.refresh();
-    }
-
-    // Event Handlers
-    @FXML
-    public void addPartBtnEvent(MouseEvent mouseEvent) {
-    }
+//    @Override
+//    public void initialize(URL url, ResourceBundle rb) {
+//        generatePartsTable();
+//        generateProductsTable();
+//    }
+//
+//    private void generatePartsTable() {
+//        partInventory.setAll(inv.getAllParts());
+//
+//        TableColumn<Part, Double> costCol = formatPrice();
+//        partsTable.getColumns().addAll(costCol);
+//
+//        partsTable.setItems(partInventory);
+//        partsTable.refresh();
+//    }
+//
+//    private void generateProductsTable() {
+//        productInventory.setAll(inv.getAllProducts());
+//
+//        TableColumn<Product, Double> costCol = formatPrice();
+//        productsTable.getColumns().addAll(costCol);
+//
+//        productsTable.setItems(productInventory);
+//        productsTable.refresh();
+//    }
 
     @FXML
-    public void addProductBtnEvent(MouseEvent mouseEvent) {
-    }
-
-    @FXML
-    public void deletePartBtnEvent(MouseEvent mouseEvent) {
+    public void addPartBtnAction(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("AddPart.fxml"));
+        Scene scene = new Scene(root);
+        // Gets the Stage information; must create new stage
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); // casting to Node, then to Stage
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    public void deleteProductBtnEvent(MouseEvent mouseEvent) {
+    public void addProductBtnAction(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("AddProduct.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    public void updatePartBtnEvent(MouseEvent mouseEvent) {
+    public void deletePartBtnAction(ActionEvent event) {
     }
 
     @FXML
-    public void updateProductBtnEvent(MouseEvent mouseEvent) {
+    public void deleteProductBtnAction(ActionEvent event) {
     }
 
     @FXML
-    public void searchPartBtnEvent(MouseEvent mouseEvent) {
+    public void updatePartBtnAction(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("UpdatePart.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    public void searchProductBtnEvent(MouseEvent mouseEvent) {
+    public void updateProductBtnAction(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("UpdateProduct.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void searchPartBtnAction(ActionEvent event) {
+        if (!partSearchBox.getText().trim().isEmpty()) {
+            partInventorySearch.clear();
+            for (Part p : inv.getAllParts()) {
+                if (p.getPartName().contains(partSearchBox.getText().trim())) {
+                    partInventorySearch.add(p);
+                }
+            }
+            partsTable.setItems(partInventorySearch);
+            partsTable.refresh();
+        }
+    }
+
+    @FXML
+    public void searchProductBtnAction(ActionEvent event) {
+        if (!productSearchBox.getText().trim().isEmpty()) {
+            productInventorySearch.clear();
+            for (Product p : inv.getAllProducts()) {
+                if (p.getProductName().contains(productSearchBox.getText().trim())) {
+                    productInventorySearch.add(p);
+                }
+            }
+            productsTable.setItems(productInventorySearch);
+            productsTable.refresh();
+        }
+    }
+
+    @FXML
+    public void exitBtnAction(ActionEvent event) {
+        Platform.exit();
     }
 }

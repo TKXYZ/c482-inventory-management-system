@@ -68,7 +68,7 @@ public class Product {
         associatedParts.add(associatedPartToAdd);
     }
 
-    public boolean deleteAssociatedPart (Part associatedPartToDelete) {
+    public boolean deleteAssociatedPart(Part associatedPartToDelete) {
         for (int i = 0; i < associatedParts.size(); i++) {
             if (associatedParts.get(i) == associatedPartToDelete) {
                 associatedParts.remove(i);
@@ -80,8 +80,9 @@ public class Product {
 
     public Part getAssociatedParts(int associatedPartToSearch) {
         for (int i = 0; i < associatedParts.size(); i++) {
-            if (associatedParts.get(i).getPartID() == associatedPartToSearch) {
-                return associatedParts.get(i);
+            Part associatedPart = associatedParts.get(i);
+            if (associatedPart.getPartID() == associatedPartToSearch) {
+                return associatedPart;
             }
         }
         return null;

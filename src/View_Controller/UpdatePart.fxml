@@ -3,14 +3,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
-<AnchorPane prefHeight="360.0" prefWidth="380.0" style="-fx-background-color: #EEEEEE;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.ModifyPartController">
-   <Label layoutX="18.0" layoutY="18.0" text="Modify Part">
+<AnchorPane fx:id="UpdatePartScene" prefHeight="360.0" prefWidth="380.0" style="-fx-background-color: #EEEEEE;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.UpdatePartController">
+   <Label layoutX="18.0" layoutY="18.0" text="Update Part">
       <font>
          <Font name="System Bold" size="18.0" />
       </font>
    </Label>
-   <RadioButton layoutX="194.0" layoutY="23.0" mnemonicParsing="false" text="In-House" />
-   <RadioButton layoutX="271.0" layoutY="23.0" mnemonicParsing="false" text="Outsourced" />
+   <RadioButton layoutX="194.0" layoutY="23.0" mnemonicParsing="false" text="In-House">
+      <toggleGroup>
+         <ToggleGroup fx:id="InOut" />
+      </toggleGroup></RadioButton>
+   <RadioButton layoutX="271.0" layoutY="23.0" mnemonicParsing="false" text="Outsourced" toggleGroup="$InOut" />
    <Label layoutX="55.0" layoutY="81.0" text="ID" />
    <TextField layoutX="152.0" layoutY="77.0" prefWidth="160.0" promptText="Product ID">
       <font>
@@ -47,6 +50,6 @@
       <font>
          <Font name="System Italic" size="12.0" />
       </font></TextField>
-   <Button layoutX="229.0" layoutY="321.0" mnemonicParsing="false" prefWidth="60.0" text="Save" />
-   <Button layoutX="293.0" layoutY="321.0" mnemonicParsing="false" prefWidth="60.0" text="Cancel" />
+   <Button fx:id="saveBtn" layoutX="229.0" layoutY="321.0" mnemonicParsing="false" onAction="#saveBtnAction" prefWidth="60.0" text="Save" />
+   <Button fx:id="cancelBtn" layoutX="293.0" layoutY="321.0" mnemonicParsing="false" onAction="#cancelBtnAction" prefWidth="60.0" text="Cancel" />
 </AnchorPane>

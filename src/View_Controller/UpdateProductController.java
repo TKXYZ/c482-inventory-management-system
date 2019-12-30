@@ -9,11 +9,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class AddProductController {
+public class UpdateProductController {
 
     public Button addProductBtn;
     public Button deleteProductBtn;
-    public Button productSearchBtn;
+    public Button productSearchButton;
     public Button saveBtn;
     public Button cancelBtn;
     public TextField productSearchBox;
