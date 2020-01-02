@@ -2,7 +2,7 @@ package Model;
 
 public abstract class Part {
 
-    // Part members
+    // Part Members (protected b/c InHouse and Outsourced will inherit from Part)
     protected int partID;
     protected String partName;
     protected double partPrice;
@@ -10,7 +10,7 @@ public abstract class Part {
     protected int partMin;
     protected int partMax;
 
-    // Part getters
+    // Part Getters
     public int getPartID() {
         return partID;
     }
@@ -30,7 +30,7 @@ public abstract class Part {
         return partMax;
     }
 
-    // Part setters
+    // Part Setters
     public void setPartID(int partID) {
         this.partID = partID;
     }

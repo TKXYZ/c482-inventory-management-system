@@ -9,16 +9,22 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-// MainScreenController sits behind the Main Screen and Controls Events
-public class MainScreenController {
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+public class MainScreenController implements Initializable {
 
     Inventory inv;
     public Button addPartBtn;
@@ -33,48 +39,53 @@ public class MainScreenController {
     public TextField productSearchBox;
     public TableView<Part> partsTable;
     public TableView<Product> productsTable;
-    private ObservableList<Part> partInventory = FXCollections.observableArrayList();
-    private ObservableList<Product> productInventory = FXCollections.observableArrayList();
+    public TableColumn<Part, Integer> partIDCol;
+    public TableColumn<Part, String> partNameCol;
+    public TableColumn<Part, Integer> partLevelCol;
+    public TableColumn<Part, Double> partPriceCol;
+    public TableColumn<Product, Integer> productIDCol;
+    public TableColumn<Product, String> productNameCol;
+    public TableColumn<Product, Integer> productLevelCol;
+    public TableColumn<Product, Double> productPriceCol;
+    private ObservableList<Part> partInv = FXCollections.observableArrayList();
+    private ObservableList<Product> productInv = FXCollections.observableArrayList();
     private ObservableList<Part> partInventorySearch = FXCollections.observableArrayList();
     private ObservableList<Product> productInventorySearch = FXCollections.observableArrayList();
 
-//    // MainScreenController Constructor; NOT SURE WHY THIS CRASHES APP
-//    public MainScreenController(Inventory inv) {
-//        this.inv = inv;
-//    }
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // Links part table columns to their values
+        partIDCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partID"));
+        partNameCol.setCellValueFactory(new PropertyValueFactory<Part, String>("partName"));
+        partLevelCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partLevel"));
+        partPriceCol.setCellValueFactory(new PropertyValueFactory<Part, Double>("partPrice"));
 
-//    @Override
-//    public void initialize(URL url, ResourceBundle rb) {
-//        generatePartsTable();
-//        generateProductsTable();
-//    }
-//
-//    private void generatePartsTable() {
-//        partInventory.setAll(inv.getAllParts());
-//
-//        TableColumn<Part, Double> costCol = formatPrice();
-//        partsTable.getColumns().addAll(costCol);
-//
-//        partsTable.setItems(partInventory);
-//        partsTable.refresh();
-//    }
-//
-//    private void generateProductsTable() {
-//        productInventory.setAll(inv.getAllProducts());
-//
-//        TableColumn<Product, Double> costCol = formatPrice();
-//        productsTable.getColumns().addAll(costCol);
-//
-//        productsTable.setItems(productInventory);
-//        productsTable.refresh();
-//    }
+        // Links product table columns to their values
+        productIDCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("productID"));
+        productNameCol.setCellValueFactory(new PropertyValueFactory<Product, String>("productName"));
+        productLevelCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("productLevel"));
+        productPriceCol.setCellValueFactory(new PropertyValueFactory<Product, Double>("productPrice"));
+
+        // Populates both tables using ArrayList containing all Parts/Products from predefined methods
+        partsTable.getItems().setAll(populatePartsTable());
+        productsTable.getItems().setAll(populateProductsTable());
+    }
+
+    // Method used to populate Parts table with all Parts from Inventory; returns ArrayList of Parts
+    private ArrayList<Part> populatePartsTable() {
+        return new ArrayList<Part>(Inventory.getPartsInv());
+    }
+
+    // Method used to populate Products table with all Products from Inventory; returns ArrayList of Products
+    private ArrayList<Product> populateProductsTable() {
+        return new ArrayList<Product>(Inventory.getProductsInv());
+    }
 
     @FXML
     public void addPartBtnAction(ActionEvent event) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("AddPart.fxml"));
         Scene scene = new Scene(root);
-        // Gets the Stage information; must create new stage
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); // casting to Node, then to Stage
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
@@ -117,10 +128,13 @@ public class MainScreenController {
     @FXML
     public void searchPartBtnAction(ActionEvent event) {
         if (!partSearchBox.getText().trim().isEmpty()) {
-            partInventorySearch.clear();
-            for (Part p : inv.getAllParts()) {
-                if (p.getPartName().contains(partSearchBox.getText().trim())) {
-                    partInventorySearch.add(p);
+            partsTable.getItems().setAll(populatePartsTable());
+            ObservableList<Part> allParts = Inventory.getPartsInv();
+
+            for (int i = 0; i < Inventory.getPartsInv().size(); i++) {
+                Part part = allParts.get(i);
+                if (part.getPartName().contains(partSearchBox.getText().trim())) {
+                    partInventorySearch.add(part);
                 }
             }
             partsTable.setItems(partInventorySearch);
@@ -131,10 +145,13 @@ public class MainScreenController {
     @FXML
     public void searchProductBtnAction(ActionEvent event) {
         if (!productSearchBox.getText().trim().isEmpty()) {
-            productInventorySearch.clear();
-            for (Product p : inv.getAllProducts()) {
-                if (p.getProductName().contains(productSearchBox.getText().trim())) {
-                    productInventorySearch.add(p);
+            productsTable.getItems().setAll(populateProductsTable());
+            ObservableList<Product> allProducts = Inventory.getProductsInv();
+
+            for (int i = 0; i < Inventory.getProductsInv().size(); i++) {
+                Product product = allProducts.get(i);
+                if (product.getProductName().contains(productSearchBox.getText().trim())) {
+                    productInventorySearch.add(product);
                 }
             }
             productsTable.setItems(productInventorySearch);

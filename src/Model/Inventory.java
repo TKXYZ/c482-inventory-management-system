@@ -1,87 +1,73 @@
 package Model;
 
-import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Inventory {
 
-    // Inventory members
-    private ArrayList<Part> allParts;
-    private ArrayList<Product> allProducts;
-
-    // Inventory constructor
-    public Inventory() {
-        allParts = new ArrayList<>();
-        allProducts = new ArrayList<>();
-    }
+    // Inventory Members
+    private static ObservableList<Part> partsInv = FXCollections.observableArrayList();
+    private static ObservableList<Product> productsInv = FXCollections.observableArrayList();
 
     // ADD
-    public void addPart(Part partToAdd) {
-        if (partToAdd != null) {
-            allParts.add(partToAdd);
-        }
+    public static void addPart(Part partToAdd) {
+        partsInv.add(partToAdd);
     }
-    public void addProduct(Product productToAdd) {
-        if (productToAdd != null) {
-            allProducts.add(productToAdd);
-        }
+    public static void addProduct(Product productToAdd) {
+        productsInv.add(productToAdd);
     }
 
-    // DELETE (by ID)
-    public boolean deletePart(int partToDelete) {
-        for (int i = 0; i < allParts.size(); i++) {
-            if (allParts.get(i).getPartID() == partToDelete) {
-                allParts.remove(i);
-            } else {
-                return false;
+    // DELETE
+    public static void deletePart(Part partToDelete) {
+        for (int i = 0; i < partsInv.size(); i++) {
+            if (partsInv.get(i) == partToDelete) {
+                partsInv.remove(i);
             }
         }
-        return true;
     }
-    public boolean deleteProduct(int productToDelete) {
-        for (int i = 0; i < allProducts.size(); i++) {
-            if (allProducts.get(i).getProductID() == productToDelete) {
-                allProducts.remove(i);
-            } else {
-                return false;
+    public static void deleteProduct(Product productToDelete) {
+        for (int i = 0; i < productsInv.size(); i++) {
+            if (productsInv.get(i) == productToDelete) {
+                productsInv.remove(i);
             }
         }
-        return true;
     }
 
     // UPDATE
-    public void updatePart(Part partToUpdate) {
-        for (int i = 0; i < allParts.size(); i++) {
-            if (allParts.get(i).getPartID() == partToUpdate.getPartID()) {
-                allParts.set(i, partToUpdate);
-                break;
-            }
-        }
-    }
-    public  void updateProduct(Product productToUpdate) {
-        for (int i = 0; i < allProducts.size(); i++) {
-            if (allProducts.get(i).getProductID() == productToUpdate.getProductID()) {
-                allProducts.set(i, productToUpdate);
-                break;
+    public static void updatePart(Part partToUpdate) {
+        for (int i = 0; i < partsInv.size(); i++) {
+            if (partsInv.get(i).getPartID() == partToUpdate.getPartID()) {
+                partsInv.set(i, partToUpdate);
             }
         }
     }
 
-    // SEARCH (by ID)
-    public Part searchPart(int partToSearch) {
-        if (!allParts.isEmpty()) {
-            for (int i = 0; i < allParts.size(); i++) {
-                if (allParts.get(i).getPartID() == partToSearch) {
-                    return allParts.get(i);
+    public static void updateProduct(Product productToUpdate) {
+        for (int i = 0; i < productsInv.size(); i++) {
+            if (productsInv.get(i).getProductID() == productToUpdate.getProductID()) {
+                productsInv.set(i, productToUpdate);
+            }
+        }
+    }
+
+    // TODO: VERIFY W/ INSTRUCTOR IF THIS IS CORRECT
+    // SEARCH/LOOK UP
+    public Part searchPart(Part partToSearch) {
+        if (!partsInv.isEmpty()) { // only loop if Parts inventory is not empty
+            for (int i = 0; i < partsInv.size(); i++) {
+                if (partsInv.get(i).getPartID() == partToSearch.getPartID()) {
+                    return partsInv.get(i);
                 }
             }
         }
         return null;
     }
-    public Product searchProduct(int productToSearch) {
-        if (!allProducts.isEmpty()) {
-            for (int i = 0; i < allProducts.size(); i++) {
-                if (allProducts.get(i).getProductID() == productToSearch) {
-                    return allProducts.get(i);
+
+    public Product searchProduct(Product productToSearch) {
+        if (!productsInv.isEmpty()) { // only loop if Products inventory is not empty
+            for (int i = 0; i < productsInv.size(); i++) {
+                if (productsInv.get(i).getProductID() == productToSearch.getProductID()) {
+                    return productsInv.get(i);
                 }
             }
         }
@@ -89,20 +75,11 @@ public class Inventory {
     }
 
     // GET ALL
-    public ArrayList<Part> getAllParts() {
-        return allParts;
+    public static ObservableList<Part> getPartsInv() {
+        return partsInv;
     }
 
-    public ArrayList<Product> getAllProducts() {
-        return allProducts;
-    }
-
-    // GET SIZE
-    public int partListSize() {
-        return allParts.size();
-    }
-
-    public int productListSize() {
-        return allProducts.size();
+    public static ObservableList<Product> getProductsInv() {
+        return productsInv;
     }
 }

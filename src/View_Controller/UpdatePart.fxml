@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
-<AnchorPane fx:id="UpdatePartScene" prefHeight="360.0" prefWidth="380.0" style="-fx-background-color: #EEEEEE;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.UpdatePartController">
+<AnchorPane prefHeight="360.0" prefWidth="380.0" style="-fx-background-color: #EEEEEE;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.UpdatePartController">
    <Label layoutX="18.0" layoutY="18.0" text="Update Part">
       <font>
          <Font name="System Bold" size="18.0" />

@@ -2,26 +2,26 @@ package Model;
 
 public class Outsourced extends Part {
 
-    // Outsourced members
+    // Outsourced Members
     private String compName;
 
-    // Outsourced constructor (overrides Part's constructor, adding compName)
+    // Outsourced Constructor (overrides Part's constructor, adding compName)
     public Outsourced(int partID, String partName, double partPrice, int partStock, int partMin, int partMax, String compName) {
-        setPartID(partID);
-        setPartName(partName);
-        setPartPrice(partPrice);
-        setPartStock(partStock);
-        setPartMin(partMin);
-        setPartMax(partMax);
-        setCompName(compName);
+        this.setPartID(partID);
+        this.setPartName(partName);
+        this.setPartPrice(partPrice);
+        this.setPartStock(partStock);
+        this.setPartMin(partMin);
+        this.setPartMax(partMax);
+        this.setCompName(compName);
     }
 
-    // Outsourced getters
+    // Outsourced Getters
     public String getCompName() {
         return compName;
     }
 
-    // Outsourced setters
+    // Outsourced Setters
     public void setCompName(String compName) {
         this.compName = compName;
     }

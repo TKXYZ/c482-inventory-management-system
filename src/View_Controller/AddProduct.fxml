@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane fx:id="AddProductScene" prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AddProductController">
+<AnchorPane prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AddProductController">
     <Label layoutX="14.0" layoutY="14.0" text="Add Product">
         <font>
           <Font name="System Bold" size="18.0" />
@@ -15,16 +15,16 @@
       <font>
          <Font name="System Italic" size="12.0" />
       </font></TextField>
-    <TableView layoutX="285.0" layoutY="51.0" prefHeight="100.0" prefWidth="300.0">
+    <TableView fx:id="partsTable" layoutX="285.0" layoutY="51.0" prefHeight="100.0" prefWidth="300.0">
       <columns>
-          <TableColumn prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="partTableCol" prefWidth="75.0" text="ID" />
           <TableColumn prefWidth="75.0" text="Name" />
           <TableColumn prefWidth="75.0" text="Level" />
           <TableColumn prefWidth="75.0" text="Price/Unit" />
       </columns>
     </TableView>
     <Button fx:id="addProductBtn" layoutX="525.0" layoutY="155.0" mnemonicParsing="false" onAction="#addProductBtnAction" prefWidth="60.0" text="Add" />
-    <TableView layoutX="287.0" layoutY="190.0" prefHeight="100.0" prefWidth="300.0">
+    <TableView fx:id="productsTable" layoutX="287.0" layoutY="190.0" prefHeight="100.0" prefWidth="300.0">
       <columns>
           <TableColumn prefWidth="75.0" text="ID" />
           <TableColumn prefWidth="75.0" text="Name" />
@@ -33,8 +33,8 @@
       </columns>
     </TableView>
     <Button fx:id="deleteProductBtn" layoutX="525.0" layoutY="297.0" mnemonicParsing="false" onAction="#deleteProductBtnAction" prefWidth="60.0" text="Delete" />
-    <Button fx:id="saveBtn" layoutX="459.0" layoutY="338.0" mnemonicParsing="false" onAction="#saveBtnAction" prefWidth="60.0" text="Save" />
-    <Button fx:id="cancelBtn" layoutX="525.0" layoutY="338.0" mnemonicParsing="false" onAction="#cancelBtnAction" prefWidth="60.0" text="Cancel" />
+    <Button fx:id="saveBtn" layoutX="459.0" layoutY="342.0" mnemonicParsing="false" onAction="#saveBtnAction" prefWidth="60.0" text="Save" />
+    <Button fx:id="cancelBtn" layoutX="525.0" layoutY="342.0" mnemonicParsing="false" onAction="#cancelBtnAction" prefWidth="60.0" text="Cancel" />
     <GridPane layoutX="14.0" layoutY="51.0" prefHeight="300.0" prefWidth="258.0" style="-fx-background-color: #EEEEEE;">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="70.0" />

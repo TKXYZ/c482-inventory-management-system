@@ -1,29 +1,29 @@
 package Model;
 
-import java.util.ArrayList;
+import javafx.collections.ObservableList;
 
 public class Product {
 
-    // Product members
+    // Product Members (private b/c nothing will inherit from Product)
     private int productID;
     private String productName;
     private double productPrice;
     private int productStock;
     private int productMin;
     private int productMax;
-    private ArrayList<Part> associatedParts = new ArrayList<>(); // Parts associated with a product
+    private ObservableList<Part> associatedParts; // Parts associated with a Product
 
-    // Product constructor
-    public Product(int productID, String productName, double productPrice, int productStock, int productMin, int productMax) {
-        setProductID(productID);
-        setProductName(productName);
-        setProductPrice(productPrice);
-        setProductStock(productStock);
-        setProductMin(productMin);
-        setProductMax(productMax);
+    public Product(int productID, String productName, double productPrice, int productStock, int productMin, int productMax, ObservableList<Part> associatedParts) {
+        this.productID = productID;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productStock = productStock;
+        this.productMin = productMin;
+        this.productMax = productMax;
+        this.associatedParts = associatedParts;
     }
 
-    // Product getters
+    // Product Getters
     public int getProductID() {
         return productID;
     }
@@ -43,7 +43,7 @@ public class Product {
         return productMax;
     }
 
-    // Product setters
+    // Product Setters
     public void setProductID(int productID) {
         this.productID = productID;
     }
@@ -63,28 +63,20 @@ public class Product {
         this.productMax = productMax;
     }
 
-    // Methods for Parts that associate with Products
+    // Methods for Parts that are associated with Products
     public void addAssociatedPart(Part associatedPartToAdd) {
         associatedParts.add(associatedPartToAdd);
     }
 
-    public boolean deleteAssociatedPart(Part associatedPartToDelete) {
+    public void deleteAssociatedPart(Part associatedPartToDelete) {
         for (int i = 0; i < associatedParts.size(); i++) {
             if (associatedParts.get(i) == associatedPartToDelete) {
                 associatedParts.remove(i);
-                return true;
             }
         }
-        return false;
     }
 
-    public Part getAssociatedParts(int associatedPartToSearch) {
-        for (int i = 0; i < associatedParts.size(); i++) {
-            Part associatedPart = associatedParts.get(i);
-            if (associatedPart.getPartID() == associatedPartToSearch) {
-                return associatedPart;
-            }
-        }
-        return null;
+    public ObservableList<Part> getAssociatedParts() {
+        return associatedParts;
     }
 }
