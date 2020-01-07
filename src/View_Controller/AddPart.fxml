@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane prefHeight="360.0" prefWidth="380.0" style="-fx-background-color: #EEEEEE;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AddPartController">
+<AnchorPane prefHeight="360.0" prefWidth="380.0" style="-fx-background-color: #EEEEEE;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <HBox layoutX="20.0" layoutY="64.0" prefHeight="25.0" prefWidth="340.0" spacing="120.0">
       <Label text="ID">
          <HBox.margin>
@@ -75,7 +75,7 @@
          </font>
       </TextField>
    </HBox>
-   <HBox layoutX="20.0" layoutY="287.0" prefHeight="25.0" prefWidth="340.0" spacing="74.0">
+   <HBox fx:id="machineHBox" layoutX="20.0" layoutY="287.0" prefHeight="25.0" prefWidth="340.0" spacing="74.0">
       <Label text="Machine ID">
          <HBox.margin>
             <Insets top="5.0" />
@@ -99,7 +99,7 @@
          </HBox.margin>
       </Button>
    </HBox>
-   <HBox layoutX="20.0" layoutY="287.0" prefHeight="25.0" prefWidth="340.0" spacing="50.0" visible="false">
+   <HBox fx:id="compHBox" layoutX="20.0" layoutY="287.0" prefHeight="25.0" prefWidth="340.0" spacing="50.0" visible="false">
       <Label text="Company Name">
          <HBox.margin>
             <Insets top="5.0" />
@@ -111,7 +111,7 @@
          </font>
       </TextField>
    </HBox>
-   <HBox layoutX="20.0" layoutY="23.0" prefHeight="27.0" prefWidth="340.0" spacing="5.0">
+   <HBox layoutX="20.0" layoutY="20.0" prefHeight="27.0" prefWidth="340.0" spacing="5.0">
       <Label text="Add Part">
          <font>
             <Font name="System Bold" size="18.0" />

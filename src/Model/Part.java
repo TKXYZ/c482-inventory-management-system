@@ -1,14 +1,16 @@
 package Model;
 
+// Part abstract because we cannot just create a "Part", it must be specifically an InHouse or Outsourced Part
+// InHouse and Outsourced are "concrete" classes, unlike Part which is "abstract"
 public abstract class Part {
-
-    // Part Members (protected b/c InHouse and Outsourced will inherit from Part)
     protected int partID;
     protected String partName;
     protected double partPrice;
-    protected int partStock;
-    protected int partMin;
+    protected int partInv;
     protected int partMax;
+    protected int partMin;
+
+    // Part doesn't have a constructor (cannot just create a "Part"); respective Part constructors are within InHouse or Outsourced
 
     // Part Getters
     public int getPartID() {
@@ -20,14 +22,14 @@ public abstract class Part {
     public double getPartPrice() {
         return partPrice;
     }
-    public int getPartStock() {
-        return partStock;
-    }
-    public int getPartMin() {
-        return partMin;
+    public int getPartInv() {
+        return partInv;
     }
     public int getPartMax() {
         return partMax;
+    }
+    public int getPartMin() {
+        return partMin;
     }
 
     // Part Setters
@@ -40,13 +42,13 @@ public abstract class Part {
     public void setPartPrice(double partPrice) {
         this.partPrice = partPrice;
     }
-    public void setPartStock(int partStock) {
-        this.partStock = partStock;
-    }
-    public void setPartMin(int partMin) {
-        this.partMin = partMin;
+    public void setPartInv(int partInv) {
+        this.partInv = partInv;
     }
     public void setPartMax(int partMax) {
         this.partMax = partMax;
+    }
+    public void setPartMin(int partMin) {
+        this.partMin = partMin;
     }
 }

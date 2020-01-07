@@ -4,35 +4,35 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AddProductController">
+<AnchorPane prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
     <Label layoutX="14.0" layoutY="14.0" text="Add Product">
         <font>
           <Font name="System Bold" size="18.0" />
         </font>
     </Label>
-    <Button fx:id="productSearchBtn" layoutX="375.0" layoutY="14.0" mnemonicParsing="false" onAction="#productSearchBtnAction" prefWidth="60.0" text="Search" />
-    <TextField fx:id="productSearchBox" layoutX="437.0" layoutY="14.0" promptText="Search Product">
+    <Button fx:id="partSearchBtn" layoutX="375.0" layoutY="14.0" mnemonicParsing="false" onAction="#partSearchBtnAction" prefWidth="60.0" text="Search" />
+    <TextField fx:id="partSearchTextField" layoutX="437.0" layoutY="14.0" promptText="Search Part">
       <font>
          <Font name="System Italic" size="12.0" />
       </font></TextField>
     <TableView fx:id="partsTable" layoutX="285.0" layoutY="51.0" prefHeight="100.0" prefWidth="300.0">
       <columns>
-          <TableColumn fx:id="partTableCol" prefWidth="75.0" text="ID" />
-          <TableColumn prefWidth="75.0" text="Name" />
-          <TableColumn prefWidth="75.0" text="Level" />
-          <TableColumn prefWidth="75.0" text="Price/Unit" />
+          <TableColumn fx:id="partsTableIDCol" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="partsTableNameCol" prefWidth="75.0" text="Name" />
+          <TableColumn fx:id="partsTableInvCol" prefWidth="75.0" text="Level" />
+          <TableColumn fx:id="partsTablePriceCol" prefWidth="75.0" text="Price/Unit" />
       </columns>
     </TableView>
-    <Button fx:id="addProductBtn" layoutX="525.0" layoutY="155.0" mnemonicParsing="false" onAction="#addProductBtnAction" prefWidth="60.0" text="Add" />
-    <TableView fx:id="productsTable" layoutX="287.0" layoutY="190.0" prefHeight="100.0" prefWidth="300.0">
+    <Button fx:id="addAssociatedPartBtn" layoutX="525.0" layoutY="155.0" mnemonicParsing="false" onAction="#addAssociatedPartBtnAction" prefWidth="60.0" text="Add" />
+    <TableView fx:id="selectedPartsTable" layoutX="287.0" layoutY="190.0" prefHeight="100.0" prefWidth="300.0">
       <columns>
-          <TableColumn prefWidth="75.0" text="ID" />
-          <TableColumn prefWidth="75.0" text="Name" />
-          <TableColumn prefWidth="75.0" text="Level" />
-          <TableColumn prefWidth="75.0" text="Price/Unit" />
+          <TableColumn fx:id="selectedPartsTableIDCol" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="selectedPartsTableNameCol" prefWidth="75.0" text="Name" />
+          <TableColumn fx:id="selectedPartsTableInvCol" prefWidth="75.0" text="Level" />
+          <TableColumn fx:id="selectedPartsTablePriceCol" prefWidth="75.0" text="Price/Unit" />
       </columns>
     </TableView>
-    <Button fx:id="deleteProductBtn" layoutX="525.0" layoutY="297.0" mnemonicParsing="false" onAction="#deleteProductBtnAction" prefWidth="60.0" text="Delete" />
+    <Button fx:id="deleteAssociatedPart" layoutX="525.0" layoutY="297.0" mnemonicParsing="false" onAction="#deleteAssociatedPartBtnAction" prefWidth="60.0" text="Delete" />
     <Button fx:id="saveBtn" layoutX="459.0" layoutY="342.0" mnemonicParsing="false" onAction="#saveBtnAction" prefWidth="60.0" text="Save" />
     <Button fx:id="cancelBtn" layoutX="525.0" layoutY="342.0" mnemonicParsing="false" onAction="#cancelBtnAction" prefWidth="60.0" text="Cancel" />
     <GridPane layoutX="14.0" layoutY="51.0" prefHeight="300.0" prefWidth="258.0" style="-fx-background-color: #EEEEEE;">
@@ -79,27 +79,27 @@
                 <Insets left="10.0" />
             </GridPane.margin>
         </Label>
-        <TextField prefWidth="140.0" promptText="Product ID" GridPane.columnIndex="1" GridPane.columnSpan="2">
+        <TextField fx:id="idTextField" prefWidth="140.0" promptText="Product ID" GridPane.columnIndex="1" GridPane.columnSpan="2">
          <font>
             <Font name="System Italic" size="12.0" />
          </font></TextField>
-        <TextField promptText="Product Name" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+        <TextField fx:id="nameTextField" promptText="Product Name" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
          <font>
             <Font name="System Italic" size="12.0" />
          </font></TextField>
-        <TextField promptText="Inventory Level" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
+        <TextField fx:id="invTextField" promptText="Inventory Level" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
          <font>
             <Font name="System Italic" size="12.0" />
          </font></TextField>
-        <TextField promptText="Price per Unit" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3">
+        <TextField fx:id="priceTextField" promptText="Price per Unit" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3">
          <font>
             <Font name="System Italic" size="12.0" />
          </font></TextField>
-        <TextField promptText="Max" GridPane.columnIndex="1" GridPane.rowIndex="4">
+        <TextField fx:id="maxTextField" promptText="Max" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <font>
             <Font name="System Italic" size="12.0" />
          </font></TextField>
-        <TextField prefWidth="50.0" promptText="Min" GridPane.columnIndex="3" GridPane.rowIndex="4">
+        <TextField fx:id="minTextField" prefWidth="50.0" promptText="Min" GridPane.columnIndex="3" GridPane.rowIndex="4">
             <GridPane.margin>
                 <Insets right="10.0" />
             </GridPane.margin>

@@ -1,26 +1,25 @@
 package Model;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Product {
-
-    // Product Members (private b/c nothing will inherit from Product)
     private int productID;
     private String productName;
     private double productPrice;
-    private int productStock;
-    private int productMin;
+    private int productInv;
     private int productMax;
-    private ObservableList<Part> associatedParts; // Parts associated with a Product
+    private int productMin;
+    private ObservableList<Part> associatedParts = FXCollections.observableArrayList(); // stores Parts associated with a Product
 
-    public Product(int productID, String productName, double productPrice, int productStock, int productMin, int productMax, ObservableList<Part> associatedParts) {
+    // Product Constructor
+    public Product(int productID, String productName, double productPrice, int productInv, int productMax, int productMin) {
         this.productID = productID;
         this.productName = productName;
         this.productPrice = productPrice;
-        this.productStock = productStock;
-        this.productMin = productMin;
+        this.productInv = productInv;
         this.productMax = productMax;
-        this.associatedParts = associatedParts;
+        this.productMin = productMin;
     }
 
     // Product Getters
@@ -33,14 +32,14 @@ public class Product {
     public double getProductPrice() {
         return productPrice;
     }
-    public int getProductStock() {
-        return productStock;
-    }
-    public int getProductMin() {
-        return productMin;
+    public int getProductInv() {
+        return productInv;
     }
     public int getProductMax() {
         return productMax;
+    }
+    public int getProductMin() {
+        return productMin;
     }
 
     // Product Setters
@@ -53,17 +52,17 @@ public class Product {
     public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
     }
-    public void setProductStock(int productStock) {
-        this.productStock = productStock;
-    }
-    public void setProductMin(int productMin) {
-        this.productMin = productMin;
+    public void setProductInv(int productInv) {
+        this.productInv = productInv;
     }
     public void setProductMax(int productMax) {
         this.productMax = productMax;
     }
+    public void setProductMin(int productMin) {
+        this.productMin = productMin;
+    }
 
-    // Methods for Parts that are associated with Products
+    // Methods for Parts that are associated with a Product
     public void addAssociatedPart(Part associatedPartToAdd) {
         associatedParts.add(associatedPartToAdd);
     }

@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="800.0" style="-fx-background-color: #EEEEEE;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.MainScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="800.0" style="-fx-background-color: #EEEEEE;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
     <GridPane layoutX="14.0" layoutY="24.0" prefHeight="380.0" prefWidth="760.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -39,12 +39,12 @@
                     <Insets left="10.0" />
                 </GridPane.margin>
             </Label>
-            <Button fx:id="searchPartBtn" mnemonicParsing="false" onAction="#deletePartBtnAction" text="Search" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+            <Button fx:id="searchPartBtn" mnemonicParsing="false" onAction="#searchPartBtnAction" text="Search" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                 <GridPane.margin>
                     <Insets />
                 </GridPane.margin>
             </Button>
-            <TextField fx:id="partSearchBox" promptText="Part Name" GridPane.columnIndex="2">
+            <TextField fx:id="partSearchTextField" promptText="Part Name" GridPane.columnIndex="2">
                 <GridPane.margin>
                     <Insets left="5.0" right="10.0" />
                 </GridPane.margin>
@@ -101,7 +101,7 @@
                 </GridPane.margin>
             </Label>
             <Button fx:id="searchProductBtn" mnemonicParsing="false" onAction="#deleteProductBtnAction" text="Search" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
-            <TextField fx:id="productSearchBox" promptText="Product Name" GridPane.columnIndex="2">
+            <TextField fx:id="productSearchTextField" promptText="Product Name" GridPane.columnIndex="2">
                 <GridPane.margin>
                     <Insets left="5.0" right="10.0" />
                 </GridPane.margin>
@@ -138,7 +138,7 @@
               <Insets left="5.0" />
           </padding>
         </GridPane>
-        <Button alignment="CENTER" mnemonicParsing="false" onAction="#exitBtnAction" prefWidth="80.0" text="Exit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+        <Button fx:id="exitBtn" alignment="CENTER" mnemonicParsing="false" onAction="#exitBtnAction" prefWidth="80.0" text="Exit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
            <GridPane.margin>
                <Insets top="10.0" />
            </GridPane.margin>

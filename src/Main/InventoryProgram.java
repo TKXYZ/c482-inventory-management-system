@@ -1,5 +1,6 @@
 package Main;
 
+import Model.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,61 +9,71 @@ import javafx.stage.Stage;
 
 public class InventoryProgram extends Application {
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
+        // Creates a new Inventory
+        Inventory inv = new Inventory();
+        // Adds test data into Inventory
+        addTestData(inv);
 
-        Parent root = FXMLLoader.load(getClass().getResource("../View_Controller/MainScreen.fxml")); // FXMLLoader loads FXML file containing GUI components
-        Scene scene = new Scene(root, 800, 425); // creates Scene using GUI components found within the rootNode (AnchorPane is base layout)
+        // Uses FXMLLoader to load MainScreen.fxml
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View_Controller/MainScreen.fxml"));
+        // Creates controller for MainScreen.fxml; passing inv as param to controller's constructor
+        View_Controller.MainScreenController controller = new View_Controller.MainScreenController(inv);
+        // Links loader and controller
+        loader.setController(controller);
+
+        // Creates window and sets scene
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 800, 425);
         stage.setScene(scene);
         stage.setTitle("Inventory Management System");
         stage.setResizable(false);
         stage.show();
-
-//        Inventory inv = new Inventory();
-//        addTestData(inv);
     }
 
-    // Entry point of execution
-    public static void main(String[] args) {
-        launch(args);
+    void addTestData(Inventory inv) {
+        // Adds InHouse parts (has machineID)
+        Part inPart1 = new InHouse(1, "In-House Part 1", 1.00, 10, 100, 1, 101);
+        Part inPart2 = new InHouse(2, "In-House Part 2", 2.00, 20, 100, 1, 102);
+        Part inPart3 = new InHouse(3, "In-House Part 3", 3.00, 30, 100, 1, 103);
+        Part inPart4 = new InHouse(4, "In-House Part 4", 4.00, 40, 100, 1, 104);
+        Part inPart5 = new InHouse(5, "In-House Part 5", 5.00, 50, 100, 1, 105);
+        Inventory.addPart(inPart1);
+        Inventory.addPart(inPart2);
+        Inventory.addPart(inPart3);
+        Inventory.addPart(inPart4);
+        Inventory.addPart(inPart5);
+        // Adds Outsourced parts (has compName)
+        Part outPart1 = new Outsourced(6, "Outsourced Part 1", 6.00, 60, 100, 1, "Company 1");
+        Part outPart2 = new Outsourced(7, "Outsourced Part 2", 7.00, 70, 100, 1, "Company 2");
+        Part outPart3 = new Outsourced(8, "Outsourced Part 3", 8.00, 80, 100, 1, "Company 3");
+        Part outPart4 = new Outsourced(9, "Outsourced Part 4", 9.00, 90, 100, 1, "Company 4");
+        Part outPart5 = new Outsourced(10, "Outsourced Part 5", 10.00, 100, 100, 1, "Company 5");
+        Inventory.addPart(outPart1);
+        Inventory.addPart(outPart2);
+        Inventory.addPart(outPart3);
+        Inventory.addPart(outPart4);
+        Inventory.addPart(outPart5);
+        // Creates Products, associates some Parts to Products (using custom methods), and adds Product into Inventory
+        Product prod1 = new Product(101, "Product 1", 100.00, 10, 100, 1);
+        prod1.addAssociatedPart(inPart1);
+        prod1.addAssociatedPart(outPart1);
+        Inventory.addProduct(prod1);
+        Product prod2 = new Product(102, "Product 2", 200.00, 20, 100, 1);
+        prod2.addAssociatedPart(inPart2);
+        prod2.addAssociatedPart(outPart2);
+        Inventory.addProduct(prod2);
+        Product prod3 = new Product(103, "Product 3", 300.00, 30, 100, 1);
+        prod3.addAssociatedPart(inPart3);
+        prod3.addAssociatedPart(outPart3);
+        Inventory.addProduct(prod3);
     }
 }
-
-//    void addTestData(Inventory inv) {
-//        // adds InHouse parts
-//        Part inPart1 = new InHouse(1, "inPart1", 1.99, 10, 5, 100, 101);
-//        Part inPart2 = new InHouse(2, "inPart2", 2.99, 20, 5, 100, 102);
-//        Part inPart3 = new InHouse(3, "inPart3", 3.99, 30, 5, 100, 103);
-//        inv.addPart(inPart1);
-//        inv.addPart(inPart2);
-//        inv.addPart(inPart3);
-//        inv.addPart(new InHouse(4, "inPart4", 4.99, 40, 5, 100, 104));
-//        inv.addPart(new InHouse(5, "inPart5", 5.99, 50, 5, 100, 105));
-//
-//        // adds Outsourced parts
-//        Part outPart1 = new Outsourced(6, "outPart1", 6.99, 60, 5, 100, "Company 1");
-//        Part outPart2 = new Outsourced(7, "outPart2", 7.99, 70, 5, 100, "Company 2");
-//        Part outPart3 = new Outsourced(8, "outPart3", 8.99, 80, 5, 100, "Company 3");
-//        inv.addPart(outPart1);
-//        inv.addPart(outPart2);
-//        inv.addPart(outPart3);
-//        inv.addPart(new Outsourced(9, "outPart4", 9.99, 90, 5, 100, "Company 4"));
-//        inv.addPart(new Outsourced(10, "outPart5", 10.99, 100, 5, 100, "Company 5"));
-//
-//        // creates Products, associates some Parts to Products, and injects entire Product into Inventory
-//        Product prod1 = new Product(101, "Product 1", 1.99, 10, 5, 100);
-//        prod1.addAssociatedPart(inPart1); // associates an InHouse Part with prod1
-//        prod1.addAssociatedPart(outPart1); // associates an Outsourced Part with prod1
-//        inv.addProduct(prod1); // injects Product (along with associated parts) into Inventory
-//        Product prod2 = new Product(102, "Product 2", 2.99, 20, 5, 100);
-//        prod2.addAssociatedPart(inPart2);
-//        prod2.addAssociatedPart(outPart2);
-//        inv.addProduct(prod2);
-//        Product prod3 = new Product(103, "Product 3", 3.99, 30, 5, 100);
-//        prod3.addAssociatedPart(inPart3);
-//        prod3.addAssociatedPart(outPart3);
-//        inv.addProduct(prod3);
-//    }
 
 /* ----- Notes -----
     start() is main entry point for all JavaFX applications.
