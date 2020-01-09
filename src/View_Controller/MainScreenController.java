@@ -13,7 +13,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -36,18 +39,18 @@ public class MainScreenController implements Initializable {
     public TextField productSearchTextField;
     public TableView<Part> partsTable;
     public TableView<Product> productsTable;
-    public TableColumn<Part, Integer> partIDCol;
-    public TableColumn<Part, String> partNameCol;
-    public TableColumn<Part, Double> partPriceCol;
-    public TableColumn<Part, Integer> partLevelCol;
-    public TableColumn<Product, Integer> productIDCol;
-    public TableColumn<Product, String> productNameCol;
-    public TableColumn<Product, Double> productPriceCol;
-    public TableColumn<Product, Integer> productLevelCol;
-//    private ObservableList<Part> partInv = FXCollections.observableArrayList();
-//    private ObservableList<Product> productInv = FXCollections.observableArrayList();
-//    private ObservableList<Part> partInvSearch = FXCollections.observableArrayList();
-//    private ObservableList<Product> productInvSearch = FXCollections.observableArrayList();
+    public TableColumn<Part, Integer> partsTableIDCol;
+    public TableColumn<Part, String> partsTableNameCol;
+    public TableColumn<Part, Double> partsTablePriceCol;
+    public TableColumn<Part, Integer> partsTableInvCol;
+    public TableColumn<Product, Integer> productsTableIDCol;
+    public TableColumn<Product, String> productsTableNameCol;
+    public TableColumn<Product, Double> productsTablePriceCol;
+    public TableColumn<Product, Integer> productsTableInvCol;
+    private ObservableList<Part> partInv = FXCollections.observableArrayList();
+    private ObservableList<Product> productInv = FXCollections.observableArrayList();
+    private ObservableList<Part> partInvSearch = FXCollections.observableArrayList();
+    private ObservableList<Product> productInvSearch = FXCollections.observableArrayList();
 
     // MainScreen constructor accepts Inventory object
     public MainScreenController(Inventory inv) {
@@ -55,22 +58,16 @@ public class MainScreenController implements Initializable {
     }
 
     @Override public void initialize(URL url, ResourceBundle rb) {
-        /*
-            CellValueFactory used to populate individual columns.
-        */
-
-        // Links part table columns to their respective values
-        partIDCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partID"));
-        partNameCol.setCellValueFactory(new PropertyValueFactory<Part, String>("partName"));
-        partPriceCol.setCellValueFactory(new PropertyValueFactory<Part, Double>("partPrice"));
-        partLevelCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partLevel"));
-
-        // Links product table columns to their respective values
-        productIDCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("productID"));
-        productNameCol.setCellValueFactory(new PropertyValueFactory<Product, String>("productName"));
-        productPriceCol.setCellValueFactory(new PropertyValueFactory<Product, Double>("productPrice"));
-        productLevelCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("productLevel"));
-
+        // Links part columns to respective values
+        partsTableIDCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partID"));
+        partsTableNameCol.setCellValueFactory(new PropertyValueFactory<Part, String>("partName"));
+        partsTablePriceCol.setCellValueFactory(new PropertyValueFactory<Part, Double>("partPrice"));
+        partsTableInvCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partInv"));
+        // Links product columns to respective values
+        productsTableIDCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("productID"));
+        productsTableNameCol.setCellValueFactory(new PropertyValueFactory<Product, String>("productName"));
+        productsTablePriceCol.setCellValueFactory(new PropertyValueFactory<Product, Double>("productPrice"));
+        productsTableInvCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("productInv"));
         // Populates both tables using predefined method
         partsTable.getItems().setAll(generatePartsTable());
         productsTable.getItems().setAll(generateProductsTable());
@@ -109,45 +106,50 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML public void deletePartBtnAction(ActionEvent event) {
-        // Prevents deletion of non-existent Parts
-        if (partsTable.getSelectionModel().getSelectedItem() != null && partsTable.getItems() != null) {
-            Part partToDelete = partsTable.getSelectionModel().getSelectedItem();
-            Inventory.deletePart(partToDelete);
-            partsTable.getItems().setAll(generatePartsTable());
-            partsTable.refresh();
+        Part partToDelete = partsTable.getSelectionModel().getSelectedItem();
+        Inventory.deletePart(partToDelete);
+        partsTable.getItems().setAll(generatePartsTable());
 
-            // Also deletes associated Parts from Inventory
-            for (int i = 0; i < Inventory.getAllProducts().size(); i++) {
-                if (Inventory.getAllProducts().get(i).getAssociatedParts().contains(partToDelete)) {
-                    Inventory.getAllProducts().get(i).deleteAssociatedPart(partToDelete);
-                }
-            }
-        }
+//        // Prevents deletion of non-existent Parts
+//        if (partsTable.getSelectionModel().getSelectedItem() != null && partsTable.getItems() != null) {
+//            Part partToDelete = partsTable.getSelectionModel().getSelectedItem();
+//            Inventory.deletePart(partToDelete);
+//            partsTable.getItems().setAll(generatePartsTable());
+//            partsTable.refresh();
+//            // Also deletes associated Parts from Inventory
+//            for (int i = 0; i < Inventory.getAllProducts().size(); i++) {
+//                if (Inventory.getAllProducts().get(i).getAssociatedParts().contains(partToDelete)) {
+//                    Inventory.getAllProducts().get(i).deleteAssociatedPart(partToDelete);
+//                }
+//            }
+//        }
     }
 
     @FXML public void deleteProductBtnAction(ActionEvent event) {
-        // Prevents deletion of non-existent Products
-        if (productsTable.getSelectionModel().getSelectedItem() != null && productsTable.getItems() != null) {
-            Product productToDelete = productsTable.getSelectionModel().getSelectedItem();
+        Product productToDelete = productsTable.getSelectionModel().getSelectedItem();
+        Inventory.deleteProduct(productToDelete);
+        productsTable.getItems().setAll(generateProductsTable());
 
-            // Denies deletion if Product has associated Parts
-            if (!productToDelete.getAssociatedParts().isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("ERROR: Product has Associated Parts");
-                alert.setContentText("Cannot delete product because it has parts associated with it.");
-            } else {
-                Inventory.deleteProduct(productToDelete);
-                productsTable.getItems().setAll(generateProductsTable());
-                productsTable.refresh();
-            }
-        }
+//        // Prevents deletion of non-existent Products
+//        if (productsTable.getSelectionModel().getSelectedItem() != null && productsTable.getItems() != null) {
+//            Product productToDelete = productsTable.getSelectionModel().getSelectedItem();
+//            // Denies deletion if Product has associated Parts
+//            if (!productToDelete.getAssociatedParts().isEmpty()) {
+//                Alert alert = new Alert(Alert.AlertType.ERROR);
+//                alert.setTitle("ERROR: Product has Associated Parts");
+//                alert.setContentText("Cannot delete product because it has parts associated with it.");
+//            } else {
+//                Inventory.deleteProduct(productToDelete);
+//                productsTable.getItems().setAll(generateProductsTable());
+//                productsTable.refresh();
+//            }
+//        }
     }
 
     @FXML public void updatePartBtnAction(ActionEvent event) throws Exception {
         // Prevents updating non-existent Parts
         if (partsTable.getSelectionModel().getSelectedItem() != null) {
             UpdatePartController.setPartToUpdate(partsTable.getSelectionModel().getSelectedItem());
-
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("UpdatePart.fxml"));
                 UpdatePartController controller = new UpdatePartController(inv);
@@ -168,7 +170,6 @@ public class MainScreenController implements Initializable {
         // Prevents updating non-existent Products
         if (productsTable.getSelectionModel().getSelectedItem() != null) {
             UpdateProductController.setProductToUpdate(productsTable.getSelectionModel().getSelectedItem());
-
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("UpdateProduct.fxml"));
                 UpdateProductController controller = new UpdateProductController(inv);
@@ -240,21 +241,4 @@ public class MainScreenController implements Initializable {
         }
         return list;
     }
-//    // Video Pt. 2: 12:10
-//    private <T> TableColumn<T, Double> formatPrice() {
-//        TableColumn<T, Double> costCol = new TableColumn<>("price");
-//        costCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-//        // Format as currency
-//        costCol.setCellValueFactory((TableColumn<T, Double> column) -> {
-//            return new TableCell<T, Double>() {
-//                @Override
-//                protected void updateItem(Double item, boolean empty) {
-//                    if (!empty) {
-//                        setText("$" + String.format("%10.2f", item));
-//                    }
-//                }
-//            };
-//        };
-//        return costCol;
-//    }
 }

@@ -56,7 +56,6 @@ public class UpdatePartController implements Initializable {
             machineHBox.setVisible(true);
             compHBox.setVisible(false);
         }
-
         if (outsourcedRadio.isSelected()) {
             compHBox.setVisible(true);
             machineHBox.setVisible(false);
@@ -83,26 +82,22 @@ public class UpdatePartController implements Initializable {
                 alert.setContentText("Inventory must be in between min and max allowed.");
                 alert.show();
             } else {
-
-                // Creates new Part to REPLACE current Part in Inventory depending on which Radio was toggled
                 if (inHouseRadio.isSelected()) {
                     int machineID = Integer.parseInt(machineIDTextField.getText());
-                    InHouse replacementInHousePart = new InHouse(id, name, price, inv, min, max, machineID);
+                    InHouse inHousePartToAdd = new InHouse(id, name, price, inv, max, min, machineID);
                     Inventory.deletePart(partToUpdate);
-                    Inventory.addPart(replacementInHousePart);
+                    Inventory.addPart(inHousePartToAdd);
                 }
-
                 if (outsourcedRadio.isSelected()) {
                     String compName = compNameTextField.getText();
-                    Outsourced replacementOutsourcedPart = new Outsourced(id, name, price, inv, min, max, compName);
+                    Outsourced outsourcedPartToAdd = new Outsourced(id, name, price, inv, max, min, compName);
                     Inventory.deletePart(partToUpdate);
-                    Inventory.addPart(replacementOutsourcedPart);
+                    Inventory.addPart(outsourcedPartToAdd);
                 }
-
-                // After updating, go back to main screen
+                // After updating, goes back to main screen
                 backToMain(event);
             }
-        } catch (Exception e) { // catches any exceptions that may arise
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Invalid Values");
             alert.setContentText("Please verify that all values are valid.");
@@ -117,7 +112,6 @@ public class UpdatePartController implements Initializable {
     private void backToMain(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
         MainScreenController controller = new MainScreenController(inv);
-
         loader.setController(controller);
         Parent root = loader.load();
         Scene scene = new Scene(root);
@@ -136,15 +130,13 @@ public class UpdatePartController implements Initializable {
             invTextField.setText(String.valueOf(part.getPartInv()));
             maxTextField.setText(String.valueOf(part.getPartMax()));
             minTextField.setText(String.valueOf(part.getPartMin()));
-            // InHouse Parts have a machine ID attached
+            // InHouse Parts have a machineID attached
             machineIDTextField.setText(String.valueOf(part.getMachineID()));
-
             // Only show elements related to InHouse
             inHouseRadio.setSelected(true);
             machineHBox.setVisible(true);
             compHBox.setVisible(false);
         }
-
         if (partToUpdate instanceof Outsourced) {
             Outsourced part = (Outsourced)partToUpdate; // casting partToUpdate to more-specific Outsourced Part (broad to narrow)
             idTextField.setText(String.valueOf(part.getPartID()));
@@ -153,9 +145,8 @@ public class UpdatePartController implements Initializable {
             invTextField.setText(String.valueOf(part.getPartInv()));
             maxTextField.setText(String.valueOf(part.getPartMax()));
             minTextField.setText(String.valueOf(part.getPartMin()));
-            // Outsourced Parts have a company name attached
+            // Outsourced Parts have companyName attached
             compNameTextField.setText(String.valueOf(part.getCompName()));
-
             // Only show elements related to Outsourced
             outsourcedRadio.setSelected(true);
             compHBox.setVisible(true);

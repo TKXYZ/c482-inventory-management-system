@@ -41,7 +41,6 @@ public class AddPartController implements Initializable {
     }
 
     @Override public void initialize(URL url, ResourceBundle rb) {
-        // Defaults to In-House Radio and MachineID TextField visible
         inHouseRadio.setSelected(true);
         machineHBox.setVisible(true);
         compHBox.setVisible(false);
@@ -52,7 +51,6 @@ public class AddPartController implements Initializable {
             machineHBox.setVisible(true);
             compHBox.setVisible(false);
         }
-
         if (outsourcedRadio.isSelected()) {
             compHBox.setVisible(true);
             machineHBox.setVisible(false);
@@ -61,19 +59,13 @@ public class AddPartController implements Initializable {
 
     @FXML public void saveBtnAction(ActionEvent event) {
         try {
-            /*
-                Parsing important in forms because all data passed in are Strings
-                Parses the String input from TextFields in order to assign to respective primitives and use in constructor
-            */
             int id = Integer.parseInt(idTextField.getText());
-            String name = nameTextField.getText(); // no need to parse; text input already a String
+            String name = nameTextField.getText();
             double price = Double.parseDouble(priceTextField.getText());
             int inv = Integer.parseInt(invTextField.getText());
             int max = Integer.parseInt(maxTextField.getText());
             int min = Integer.parseInt(minTextField.getText());
             // machineID or compName will be parsed later
-
-            // Error Handling
             if (min > max) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error: Minimum");
@@ -85,19 +77,14 @@ public class AddPartController implements Initializable {
                 alert.setContentText("Inventory must be in between min and max allowed.");
                 alert.show();
             } else {
-                /*
-                    Creates new Parts (using respective constructors) and adds to partInv depending on which Radio was toggled
-                    machineID or compName will be parsed depending on which Radio was toggled
-                */
                 if (inHouseRadio.isSelected()) {
                     int machineID = Integer.parseInt(machineIDTextField.getText());
-                    InHouse newInHousePart = new InHouse(id, name, price, inv, min, max, machineID);
+                    InHouse newInHousePart = new InHouse(id, name, price, inv, max, min, machineID);
                     Inventory.addPart(newInHousePart);
                 }
-
                 if (outsourcedRadio.isSelected()) {
                     String compName = compNameTextField.getText();
-                    Outsourced newOutsourcedPart = new Outsourced(id, name, price, inv, min, max, compName);
+                    Outsourced newOutsourcedPart = new Outsourced(id, name, price, inv, max, min, compName);
                     Inventory.addPart(newOutsourcedPart);
                 }
                 backToMain(event);
@@ -117,7 +104,6 @@ public class AddPartController implements Initializable {
     private void backToMain(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
         MainScreenController controller = new MainScreenController(inv);
-
         loader.setController(controller);
         Parent root = loader.load();
         Scene scene = new Scene(root);

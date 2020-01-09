@@ -3,8 +3,6 @@ package View_Controller;
 import Model.Inventory;
 import Model.Part;
 import Model.Product;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -62,14 +60,12 @@ public class UpdateProductController implements Initializable {
         partsTableNameCol.setCellValueFactory(new PropertyValueFactory<Part, String>("partName"));
         partsTablePriceCol.setCellValueFactory(new PropertyValueFactory<Part, Double>("partPrice"));
         partsTableInvCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partInv"));
-        partsTable.getItems().setAll(generatePartsTable());
-
         selectedPartsTableIDCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partID"));
         selectedPartsTableNameCol.setCellValueFactory(new PropertyValueFactory<Part, String>("partName"));
         selectedPartsTablePriceCol.setCellValueFactory(new PropertyValueFactory<Part, Double>("partPrice"));
         selectedPartsTableInvCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partInv"));
 
-        // Uses predefined methods to populate partsTable AND selectedPartsTable
+        // Uses predefined methods to populate partsTable and selectedPartsTable
         partsTable.getItems().setAll(generatePartsTable());
         selectedPartsTable.getItems().setAll(generateSelectedPartsTable());
 
@@ -81,39 +77,31 @@ public class UpdateProductController implements Initializable {
         minTextField.setText(String.valueOf(productToUpdate.getProductMin()));
     }
 
-    @FXML public void addAssociatedPartBtn(ActionEvent event) {
+    @FXML public void addAssociatedPartBtnAction(ActionEvent event) {
         if (partsTable.getSelectionModel().getSelectedItem() != null) {
-            Part selectedPart = partsTable.getSelectionModel().getSelectedItem(); // assigns part selected by user to selectedPart
-            addToSelectedPartsTable(selectedPart); // adds said selectedPart to selectedPartsTable using custom method
-            selectedPartsTable.refresh(); // refresh selectedPartsTable to see the new part
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error: Add");
-            alert.setContentText("A part must be selected in order to add.");
-            alert.show();
+            Part selectedPart = partsTable.getSelectionModel().getSelectedItem();
+            addToSelectedPartsTable(selectedPart);
+            partsTable.refresh();
+            selectedPartsTable.refresh();
         }
     }
 
-    @FXML public void deleteAssociatedPartBtn(ActionEvent event) {
-        if (partsTable.getSelectionModel().getSelectedItem() != null) {
+    @FXML public void deleteAssociatedPartBtnAction(ActionEvent event) {
+        if (selectedPartsTable.getSelectionModel().getSelectedItem() != null) {
             Part selectedPart = selectedPartsTable.getSelectionModel().getSelectedItem();
             selectedPartsTable.getItems().remove(selectedPart);
             partsTable.refresh();
             selectedPartsTable.refresh();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error: Delete");
-            alert.setContentText("A part must be selected in order to delete.");
-            alert.show();
         }
     }
 
     @FXML  public void partSearchBtnAction(ActionEvent event) {
         String search = partSearchTextField.getText();
+
         if (search.isEmpty()) {
             partsTable.getItems().setAll(generatePartsTable());
         } else {
-            ObservableList<Part> match = FXCollections.observableArrayList();
+            ArrayList<Part> match = new ArrayList<>();
             for (int i = 0; i < Inventory.getAllParts().size(); i++) {
                 if (Inventory.getAllParts().get(i).getPartName().toLowerCase().contains(search.toLowerCase())) {
                     match.add((Inventory.getAllParts().get(i)));
@@ -131,12 +119,12 @@ public class UpdateProductController implements Initializable {
             int inv = Integer.parseInt(invTextField.getText());
             int max = Integer.parseInt(maxTextField.getText());
             int min = Integer.parseInt(minTextField.getText());
-            ObservableList<Part> parts = selectedPartsTable.getItems();
+            ArrayList<Part> parts = new ArrayList<>(selectedPartsTable.getItems());
 
             if (parts.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Cannot be Empty");
-                alert.setContentText("A product must be associated with at least one part.");
+                alert.setTitle("Associate a Part");
+                alert.setContentText("A product must be made with at least one part.");
                 alert.show();
             } else {
                 double totalPrice = 0.0;
@@ -144,21 +132,20 @@ public class UpdateProductController implements Initializable {
                 for (int i = 0; i < parts.size(); i++) {
                     totalPrice += parts.get(i).getPartPrice();
                 }
-
                 if (price < totalPrice) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Price Error");
-                    alert.setContentText("Product price must be at least total parts price.");
+                    alert.setTitle("Error: Price");
+                    alert.setContentText("The sum of all associated parts cannot exceed that of the product itself.");
                     alert.show();
                 } else {
-                    // Finally update the old Product with the new Product
-                    Product newProduct = new Product(id, name, price, inv, max, min);
+                    Product productToAdd = new Product(id, name, price, inv, max, min);
                     Inventory.deleteProduct(productToUpdate);
-                    Inventory.addProduct(newProduct);
-                    backToMain(event);
+                    Inventory.addProduct(productToAdd);
                 }
+                // After updating, goes back to main screen
+                backToMain(event);
             }
-        } catch (Exception e) { // catches any exceptions that may arise
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Invalid Values");
             alert.setContentText("Please verify that all values are valid.");
@@ -173,7 +160,6 @@ public class UpdateProductController implements Initializable {
     private void backToMain(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
         MainScreenController controller = new MainScreenController(inv);
-
         loader.setController(controller);
         Parent root = loader.load();
         Scene scene = new Scene(root);
@@ -184,22 +170,25 @@ public class UpdateProductController implements Initializable {
     }
 
     private List<Part> generatePartsTable() {
-        ArrayList<Part> arrayList = new ArrayList<Part>();
+        ArrayList<Part> list = new ArrayList<>();
+
         for (int i = 0; i < Inventory.getAllParts().size(); i++) {
-            arrayList.add(Inventory.getAllParts().get(i));
+            Part part = Inventory.getAllParts().get(i);
+            list.add(part);
         }
-        return arrayList;
+        return list;
     }
 
     private List<Part> generateSelectedPartsTable() {
-        ArrayList<Part> arrayList = new ArrayList<Part>();
+        ArrayList<Part> list = new ArrayList<>();
+
         for (int i = 0; i < Inventory.getAllParts().size(); i++) {
             Part part = Inventory.getAllParts().get(i);
             if (productToUpdate.getAssociatedParts().contains(part)) {
-                arrayList.add(part);
+                list.add(part);
             }
         }
-        return arrayList;
+        return list;
     }
 
     private void addToSelectedPartsTable(Part part) {
@@ -207,7 +196,6 @@ public class UpdateProductController implements Initializable {
         selectedPartsTableNameCol.setCellValueFactory(new PropertyValueFactory<Part, String>("partName"));
         selectedPartsTablePriceCol.setCellValueFactory(new PropertyValueFactory<Part, Double>("partPrice"));
         selectedPartsTableInvCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partInv"));
-        // Adds Part to selectedPartsTable
         selectedPartsTable.getItems().add(part);
     }
 }

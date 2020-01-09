@@ -52,27 +52,18 @@ public class AddProductController implements Initializable {
     }
 
     @Override public void initialize(URL url, ResourceBundle rb) {
-        // Initializes partsTable
-        // .setCellValueFactor used to populate individual cells in a column
         partsTableIDCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partID"));
         partsTableNameCol.setCellValueFactory(new PropertyValueFactory<Part, String>("partName"));
         partsTablePriceCol.setCellValueFactory(new PropertyValueFactory<Part, Double>("partPrice"));
         partsTableInvCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partInv"));
-
-        // Uses predefined method to populate partsTable
         partsTable.getItems().setAll(generatePartsTable());
     }
 
     @FXML public void addAssociatedPartBtnAction(ActionEvent event) {
-        /*
-            .getSelectionModel returns currently installed selection model, an abstract class used by UI controls.
-                Enforces the rule that only a SINGLE INDEX may be selected at any given time.
-            .getSelectedItem returns currently selected object (which resides in the selected index position).
-         */
         if (partsTable.getSelectionModel().getSelectedItem() != null) {
-            Part selectedPart = partsTable.getSelectionModel().getSelectedItem(); // assigns part selected by user to selectedPart
-            addToSelectedPartsTable(selectedPart); // adds said selectedPart to selectedPartsTable using custom method
-            selectedPartsTable.refresh(); // refresh selectedPartsTable to see the new part
+            Part selectedPart = partsTable.getSelectionModel().getSelectedItem();
+            addToSelectedPartsTable(selectedPart);
+            selectedPartsTable.refresh();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error: Add");
@@ -82,14 +73,9 @@ public class AddProductController implements Initializable {
     }
 
     @FXML public void deleteAssociatedPartBtnAction(ActionEvent event) {
-        /*
-            .getSelectionModel returns currently installed selection model, an abstract class used by UI controls.
-                Enforces the rule that only a SINGLE INDEX may be selected at any given time.
-            .getSelectedItem returns currently selected object (which resides in the selected index position).
-         */
         if (partsTable.getSelectionModel().getSelectedItem() != null) {
             Part selectedPart = selectedPartsTable.getSelectionModel().getSelectedItem();
-            selectedPartsTable.getItems().remove(selectedPart); // remove selectedPart from selectedPartsTable
+            selectedPartsTable.getItems().remove(selectedPart);
             partsTable.refresh();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -116,12 +102,12 @@ public class AddProductController implements Initializable {
 
     @FXML public void saveBtnAction(ActionEvent event) {
         try {
-            int productID = Integer.parseInt(idTextField.getText());
-            String productName = nameTextField.getText();
-            double productPrice = Double.parseDouble(priceTextField.getText());
-            int productInv = Integer.parseInt(invTextField.getText());
-            int productMax = Integer.parseInt(maxTextField.getText());
-            int productMin = Integer.parseInt(minTextField.getText());
+            int id = Integer.parseInt(idTextField.getText());
+            String name = nameTextField.getText();
+            double price = Double.parseDouble(priceTextField.getText());
+            int inv = Integer.parseInt(invTextField.getText());
+            int max = Integer.parseInt(maxTextField.getText());
+            int min = Integer.parseInt(minTextField.getText());
             ObservableList<Part> parts = selectedPartsTable.getItems();
 
             if (parts.isEmpty()) {
@@ -136,19 +122,18 @@ public class AddProductController implements Initializable {
                     totalPrice += parts.get(i).getPartPrice();
                 }
 
-                if (productPrice < totalPrice) {
+                if (price < totalPrice) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Price Error");
                     alert.setContentText("Product price must be at least total parts price.");
                     alert.show();
                 } else {
-                    // Finally create the Product and add to Inventory
-                    Product newProduct = new Product(productID, productName, productPrice, productInv, productMax, productMin);
+                    Product newProduct = new Product(id, name, price, inv, max, min);
                     Inventory.addProduct(newProduct);
                     backToMain(event);
                 }
             }
-        } catch (Exception e) { // catches any exceptions that may arise
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Invalid Values");
             alert.setContentText("Please verify that all values are valid.");
@@ -163,7 +148,6 @@ public class AddProductController implements Initializable {
     private void backToMain(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
         MainScreenController controller = new MainScreenController(inv);
-
         loader.setController(controller);
         Parent root = loader.load();
         Scene scene = new Scene(root);
@@ -186,7 +170,6 @@ public class AddProductController implements Initializable {
         selectedPartsTableNameCol.setCellValueFactory(new PropertyValueFactory<Part, String>("partName"));
         selectedPartsTablePriceCol.setCellValueFactory(new PropertyValueFactory<Part, Double>("partPrice"));
         selectedPartsTableInvCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partInv"));
-        // Adds Part to selectedPartsTable
         selectedPartsTable.getItems().add(part);
     }
 }

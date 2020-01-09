@@ -37,23 +37,23 @@ public class InventoryProgram extends Application {
     }
 
     void addTestData(Inventory inv) {
-        // Adds InHouse parts (has machineID)
-        Part inPart1 = new InHouse(1, "In-House Part 1", 1.00, 10, 100, 1, 101);
-        Part inPart2 = new InHouse(2, "In-House Part 2", 2.00, 20, 100, 1, 102);
-        Part inPart3 = new InHouse(3, "In-House Part 3", 3.00, 30, 100, 1, 103);
-        Part inPart4 = new InHouse(4, "In-House Part 4", 4.00, 40, 100, 1, 104);
-        Part inPart5 = new InHouse(5, "In-House Part 5", 5.00, 50, 100, 1, 105);
+        // Adds InHouse Parts to Inventory (has machineID)
+        Part inPart1 = new InHouse(1, "In-Part 1", 10.00, 10, 100, 1, 101);
+        Part inPart2 = new InHouse(2, "In-Part 2", 20.00, 20, 100, 1, 102);
+        Part inPart3 = new InHouse(3, "In-Part 3", 30.00, 30, 100, 1, 103);
+        Part inPart4 = new InHouse(4, "In-Part 4", 40.00, 40, 100, 1, 104);
+        Part inPart5 = new InHouse(5, "In-Part 5", 50.00, 50, 100, 1, 105);
         Inventory.addPart(inPart1);
         Inventory.addPart(inPart2);
         Inventory.addPart(inPart3);
         Inventory.addPart(inPart4);
         Inventory.addPart(inPart5);
-        // Adds Outsourced parts (has compName)
-        Part outPart1 = new Outsourced(6, "Outsourced Part 1", 6.00, 60, 100, 1, "Company 1");
-        Part outPart2 = new Outsourced(7, "Outsourced Part 2", 7.00, 70, 100, 1, "Company 2");
-        Part outPart3 = new Outsourced(8, "Outsourced Part 3", 8.00, 80, 100, 1, "Company 3");
-        Part outPart4 = new Outsourced(9, "Outsourced Part 4", 9.00, 90, 100, 1, "Company 4");
-        Part outPart5 = new Outsourced(10, "Outsourced Part 5", 10.00, 100, 100, 1, "Company 5");
+        // Adds Outsourced Parts to Inventory (has compName)
+        Part outPart1 = new Outsourced(6, "Out-Part 1", 60.00, 60, 100, 1, "Company 1");
+        Part outPart2 = new Outsourced(7, "Out-Part 2", 70.00, 70, 100, 1, "Company 2");
+        Part outPart3 = new Outsourced(8, "Out-Part 3", 80.00, 80, 100, 1, "Company 3");
+        Part outPart4 = new Outsourced(9, "Out-Part 4", 90.00, 90, 100, 1, "Company 4");
+        Part outPart5 = new Outsourced(10, "Out-Part 5", 100.00, 100, 100, 1, "Company 5");
         Inventory.addPart(outPart1);
         Inventory.addPart(outPart2);
         Inventory.addPart(outPart3);

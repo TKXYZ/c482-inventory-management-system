@@ -10,8 +10,8 @@ public class InHouse extends Part {
         this.setPartName(partName);
         this.setPartPrice(partPrice);
         this.setPartInv(partInv);
-        this.setPartMin(partMax);
-        this.setPartMax(partMin);
+        this.setPartMax(partMax);
+        this.setPartMin(partMin);
         this.setMachineID(machineID);
     }
 

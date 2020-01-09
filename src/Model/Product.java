@@ -62,7 +62,7 @@ public class Product {
         this.productMin = productMin;
     }
 
-    // Methods for Parts that are associated with a Product
+    // Methods for Parts associated with a Product
     public void addAssociatedPart(Part associatedPartToAdd) {
         associatedParts.add(associatedPartToAdd);
     }
