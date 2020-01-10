@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
-    Inventory inv;
+    Inventory inventory;
     public Button addPartBtn;
     public Button deletePartBtn;
     public Button updatePartBtn;
@@ -47,14 +47,10 @@ public class MainScreenController implements Initializable {
     public TableColumn<Product, String> productsTableNameCol;
     public TableColumn<Product, Double> productsTablePriceCol;
     public TableColumn<Product, Integer> productsTableInvCol;
-    private ObservableList<Part> partInv = FXCollections.observableArrayList();
-    private ObservableList<Product> productInv = FXCollections.observableArrayList();
-    private ObservableList<Part> partInvSearch = FXCollections.observableArrayList();
-    private ObservableList<Product> productInvSearch = FXCollections.observableArrayList();
 
     // MainScreen constructor accepts Inventory object
-    public MainScreenController(Inventory inv) {
-        this.inv = inv;
+    public MainScreenController(Inventory inventory) {
+        this.inventory = inventory;
     }
 
     @Override public void initialize(URL url, ResourceBundle rb) {
@@ -76,7 +72,7 @@ public class MainScreenController implements Initializable {
     @FXML public void addPartBtnAction(ActionEvent event) throws Exception {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddPart.fxml"));
-            AddPartController controller = new AddPartController(inv);
+            AddPartController controller = new AddPartController(inventory);
             loader.setController(controller);
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -92,7 +88,7 @@ public class MainScreenController implements Initializable {
     @FXML public void addProductBtnAction(ActionEvent event) throws Exception {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddProduct.fxml"));
-            AddProductController controller = new AddProductController(inv);
+            AddProductController controller = new AddProductController(inventory);
             loader.setController(controller);
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -109,41 +105,12 @@ public class MainScreenController implements Initializable {
         Part partToDelete = partsTable.getSelectionModel().getSelectedItem();
         Inventory.deletePart(partToDelete);
         partsTable.getItems().setAll(generatePartsTable());
-
-//        // Prevents deletion of non-existent Parts
-//        if (partsTable.getSelectionModel().getSelectedItem() != null && partsTable.getItems() != null) {
-//            Part partToDelete = partsTable.getSelectionModel().getSelectedItem();
-//            Inventory.deletePart(partToDelete);
-//            partsTable.getItems().setAll(generatePartsTable());
-//            partsTable.refresh();
-//            // Also deletes associated Parts from Inventory
-//            for (int i = 0; i < Inventory.getAllProducts().size(); i++) {
-//                if (Inventory.getAllProducts().get(i).getAssociatedParts().contains(partToDelete)) {
-//                    Inventory.getAllProducts().get(i).deleteAssociatedPart(partToDelete);
-//                }
-//            }
-//        }
     }
 
     @FXML public void deleteProductBtnAction(ActionEvent event) {
         Product productToDelete = productsTable.getSelectionModel().getSelectedItem();
         Inventory.deleteProduct(productToDelete);
         productsTable.getItems().setAll(generateProductsTable());
-
-//        // Prevents deletion of non-existent Products
-//        if (productsTable.getSelectionModel().getSelectedItem() != null && productsTable.getItems() != null) {
-//            Product productToDelete = productsTable.getSelectionModel().getSelectedItem();
-//            // Denies deletion if Product has associated Parts
-//            if (!productToDelete.getAssociatedParts().isEmpty()) {
-//                Alert alert = new Alert(Alert.AlertType.ERROR);
-//                alert.setTitle("ERROR: Product has Associated Parts");
-//                alert.setContentText("Cannot delete product because it has parts associated with it.");
-//            } else {
-//                Inventory.deleteProduct(productToDelete);
-//                productsTable.getItems().setAll(generateProductsTable());
-//                productsTable.refresh();
-//            }
-//        }
     }
 
     @FXML public void updatePartBtnAction(ActionEvent event) throws Exception {
@@ -152,7 +119,7 @@ public class MainScreenController implements Initializable {
             UpdatePartController.setPartToUpdate(partsTable.getSelectionModel().getSelectedItem());
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("UpdatePart.fxml"));
-                UpdatePartController controller = new UpdatePartController(inv);
+                UpdatePartController controller = new UpdatePartController(inventory);
                 loader.setController(controller);
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
@@ -172,7 +139,7 @@ public class MainScreenController implements Initializable {
             UpdateProductController.setProductToUpdate(productsTable.getSelectionModel().getSelectedItem());
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("UpdateProduct.fxml"));
-                UpdateProductController controller = new UpdateProductController(inv);
+                UpdateProductController controller = new UpdateProductController(inventory);
                 loader.setController(controller);
                 Parent root = loader.load();
                 Scene scene = new Scene(root);

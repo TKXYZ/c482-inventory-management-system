@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class UpdateProductController implements Initializable {
-    Inventory inv;
+    Inventory inventory;
     @FXML public Button saveBtn;
     @FXML public Button cancelBtn;
     @FXML public Button addAssociatedPartBtn;
@@ -47,35 +47,37 @@ public class UpdateProductController implements Initializable {
     private static Product productToUpdate = null;
 
     // Constructor
-    public UpdateProductController(Inventory inv) {
-        this.inv = inv;
+    public UpdateProductController(Inventory inventory) {
+        this.inventory = inventory;
     }
 
     public static void setProductToUpdate(Product productToUpdate) {
         UpdateProductController.productToUpdate = productToUpdate;
     }
 
-    @Override public void initialize(URL url, ResourceBundle rb) {
-        partsTableIDCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partID"));
-        partsTableNameCol.setCellValueFactory(new PropertyValueFactory<Part, String>("partName"));
-        partsTablePriceCol.setCellValueFactory(new PropertyValueFactory<Part, Double>("partPrice"));
-        partsTableInvCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partInv"));
-        selectedPartsTableIDCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partID"));
-        selectedPartsTableNameCol.setCellValueFactory(new PropertyValueFactory<Part, String>("partName"));
-        selectedPartsTablePriceCol.setCellValueFactory(new PropertyValueFactory<Part, Double>("partPrice"));
-        selectedPartsTableInvCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partInv"));
+@Override public void initialize(URL url, ResourceBundle rb) {
+    // Displays TextFields of Product that was selected to be updated
+    idTextField.setText(String.valueOf(productToUpdate.getProductID()));
+    nameTextField.setText(String.valueOf(productToUpdate.getProductName()));
+    priceTextField.setText(String.valueOf(productToUpdate.getProductPrice()));
+    invTextField.setText(String.valueOf(productToUpdate.getProductInv()));
+    maxTextField.setText(String.valueOf(productToUpdate.getProductMax()));
+    minTextField.setText(String.valueOf(productToUpdate.getProductMin()));
 
-        // Uses predefined methods to populate partsTable and selectedPartsTable
-        partsTable.getItems().setAll(generatePartsTable());
-        selectedPartsTable.getItems().setAll(generateSelectedPartsTable());
+    // Maps table columns and populates them for partsTable
+    partsTableIDCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partID"));
+    partsTableNameCol.setCellValueFactory(new PropertyValueFactory<Part, String>("partName"));
+    partsTablePriceCol.setCellValueFactory(new PropertyValueFactory<Part, Double>("partPrice"));
+    partsTableInvCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partInv"));
+    partsTable.getItems().setAll(generatePartsTable());
 
-        idTextField.setText(String.valueOf(productToUpdate.getProductID()));
-        nameTextField.setText(String.valueOf(productToUpdate.getProductName()));
-        priceTextField.setText(String.valueOf(productToUpdate.getProductPrice()));
-        invTextField.setText(String.valueOf(productToUpdate.getProductInv()));
-        maxTextField.setText(String.valueOf(productToUpdate.getProductMax()));
-        minTextField.setText(String.valueOf(productToUpdate.getProductMin()));
-    }
+    // Maps table columns and populates them for selectedPartsTable
+    selectedPartsTableIDCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partID"));
+    selectedPartsTableNameCol.setCellValueFactory(new PropertyValueFactory<Part, String>("partName"));
+    selectedPartsTablePriceCol.setCellValueFactory(new PropertyValueFactory<Part, Double>("partPrice"));
+    selectedPartsTableInvCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partInv"));
+    selectedPartsTable.getItems().setAll(generateSelectedPartsTable());
+}
 
     @FXML public void addAssociatedPartBtnAction(ActionEvent event) {
         if (partsTable.getSelectionModel().getSelectedItem() != null) {
@@ -114,7 +116,7 @@ public class UpdateProductController implements Initializable {
     @FXML public void saveBtnAction(ActionEvent event) {
         try {
             int id = productToUpdate.getProductID(); // Product that'll be updated
-            String name = nameTextField.getText();
+            String name = nameTextField.getText(); // No need to parse since input already passed in as String
             double price = Double.parseDouble(priceTextField.getText());
             int inv = Integer.parseInt(invTextField.getText());
             int max = Integer.parseInt(maxTextField.getText());
@@ -159,7 +161,7 @@ public class UpdateProductController implements Initializable {
 
     private void backToMain(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
-        MainScreenController controller = new MainScreenController(inv);
+        MainScreenController controller = new MainScreenController(inventory);
         loader.setController(controller);
         Parent root = loader.load();
         Scene scene = new Scene(root);
@@ -169,27 +171,27 @@ public class UpdateProductController implements Initializable {
         stage.show();
     }
 
-    private List<Part> generatePartsTable() {
-        ArrayList<Part> list = new ArrayList<>();
+private List<Part> generatePartsTable() {
+    ArrayList<Part> list = new ArrayList<>();
 
-        for (int i = 0; i < Inventory.getAllParts().size(); i++) {
-            Part part = Inventory.getAllParts().get(i);
+    for (int i = 0; i < Inventory.getAllParts().size(); i++) {
+        Part part = Inventory.getAllParts().get(i);
+        list.add(part);
+    }
+    return list;
+}
+
+private List<Part> generateSelectedPartsTable() {
+    ArrayList<Part> list = new ArrayList<>();
+
+    for (int i = 0; i < Inventory.getAllParts().size(); i++) {
+        Part part = Inventory.getAllParts().get(i);
+        if (productToUpdate.getAssociatedParts().contains(part)) {
             list.add(part);
         }
-        return list;
     }
-
-    private List<Part> generateSelectedPartsTable() {
-        ArrayList<Part> list = new ArrayList<>();
-
-        for (int i = 0; i < Inventory.getAllParts().size(); i++) {
-            Part part = Inventory.getAllParts().get(i);
-            if (productToUpdate.getAssociatedParts().contains(part)) {
-                list.add(part);
-            }
-        }
-        return list;
-    }
+    return list;
+}
 
     private void addToSelectedPartsTable(Part part) {
         selectedPartsTableIDCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partID"));

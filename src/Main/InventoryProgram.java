@@ -16,14 +16,14 @@ public class InventoryProgram extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         // Creates a new Inventory
-        Inventory inv = new Inventory();
+        Inventory inventory = new Inventory();
         // Adds test data into Inventory
-        addTestData(inv);
+        addDummyData(inventory);
 
         // Uses FXMLLoader to load MainScreen.fxml
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View_Controller/MainScreen.fxml"));
         // Creates controller for MainScreen.fxml; passing inv as param to controller's constructor
-        View_Controller.MainScreenController controller = new View_Controller.MainScreenController(inv);
+        View_Controller.MainScreenController controller = new View_Controller.MainScreenController(inventory);
         // Links loader and controller
         loader.setController(controller);
 
@@ -36,7 +36,7 @@ public class InventoryProgram extends Application {
         stage.show();
     }
 
-    void addTestData(Inventory inv) {
+    void addDummyData(Inventory inv) {
         // Adds InHouse Parts to Inventory (has machineID)
         Part inPart1 = new InHouse(1, "In-Part 1", 10.00, 10, 100, 1, 101);
         Part inPart2 = new InHouse(2, "In-Part 2", 20.00, 20, 100, 1, 102);

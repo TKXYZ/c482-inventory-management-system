@@ -18,7 +18,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AddPartController implements Initializable {
-    Inventory inv;
+    Inventory inventory;
     @FXML public Button saveBtn;
     @FXML public Button cancelBtn;
     @FXML public ToggleGroup partType;
@@ -32,28 +32,28 @@ public class AddPartController implements Initializable {
     @FXML public TextField minTextField;
     @FXML public TextField machineIDTextField;
     @FXML public TextField compNameTextField;
-    @FXML public HBox machineHBox;
+    @FXML public HBox machHBox;
     @FXML public HBox compHBox;
 
     // Constructor
-    public AddPartController(Inventory inv) {
-        this.inv = inv;
+    public AddPartController(Inventory inventory) {
+        this.inventory = inventory;
     }
 
     @Override public void initialize(URL url, ResourceBundle rb) {
         inHouseRadio.setSelected(true);
-        machineHBox.setVisible(true);
+        machHBox.setVisible(true);
         compHBox.setVisible(false);
     }
 
     @FXML public void partRadioToggle(ActionEvent event) {
         if (inHouseRadio.isSelected()) {
-            machineHBox.setVisible(true);
+            machHBox.setVisible(true);
             compHBox.setVisible(false);
         }
         if (outsourcedRadio.isSelected()) {
             compHBox.setVisible(true);
-            machineHBox.setVisible(false);
+            machHBox.setVisible(false);
         }
     }
 
@@ -103,7 +103,7 @@ public class AddPartController implements Initializable {
 
     private void backToMain(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
-        MainScreenController controller = new MainScreenController(inv);
+        MainScreenController controller = new MainScreenController(inventory);
         loader.setController(controller);
         Parent root = loader.load();
         Scene scene = new Scene(root);

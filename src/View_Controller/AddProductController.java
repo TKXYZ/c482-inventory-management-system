@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddProductController implements Initializable {
-    Inventory inv;
+    Inventory inventory;
     @FXML public Button saveBtn;
     @FXML public Button cancelBtn;
     @FXML public Button addAssociatedPartBtn;
@@ -47,11 +47,12 @@ public class AddProductController implements Initializable {
     @FXML public TableColumn<Part, Integer> selectedPartsTableInvCol;
 
     // Constructor
-    public AddProductController(Inventory inv) {
-        this.inv = inv;
+    public AddProductController(Inventory inventory) {
+        this.inventory = inventory;
     }
 
     @Override public void initialize(URL url, ResourceBundle rb) {
+        // Maps table columns and populates them
         partsTableIDCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partID"));
         partsTableNameCol.setCellValueFactory(new PropertyValueFactory<Part, String>("partName"));
         partsTablePriceCol.setCellValueFactory(new PropertyValueFactory<Part, Double>("partPrice"));
@@ -147,7 +148,7 @@ public class AddProductController implements Initializable {
 
     private void backToMain(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
-        MainScreenController controller = new MainScreenController(inv);
+        MainScreenController controller = new MainScreenController(inventory);
         loader.setController(controller);
         Parent root = loader.load();
         Scene scene = new Scene(root);

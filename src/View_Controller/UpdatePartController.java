@@ -19,7 +19,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class UpdatePartController implements Initializable {
-    Inventory inv;
+    Inventory inventory;
     @FXML public Button saveBtn;
     @FXML public Button cancelBtn;
     @FXML public ToggleGroup partType;
@@ -33,14 +33,14 @@ public class UpdatePartController implements Initializable {
     @FXML public TextField minTextField;
     @FXML public TextField machineIDTextField;
     @FXML public TextField compNameTextField;
-    @FXML public HBox machineHBox;
+    @FXML public HBox machHBox;
     @FXML public HBox compHBox;
     // Part that'll be updated
     private static Part partToUpdate = null;
 
     // Constructor
-    public UpdatePartController(Inventory inv) {
-        this.inv = inv;
+    public UpdatePartController(Inventory inventory) {
+        this.inventory = inventory;
     }
 
     public static void setPartToUpdate(Part partToUpdate) {
@@ -53,19 +53,19 @@ public class UpdatePartController implements Initializable {
 
     @FXML  public void partRadioToggle(ActionEvent event) {
         if (inHouseRadio.isSelected()) {
-            machineHBox.setVisible(true);
+            machHBox.setVisible(true);
             compHBox.setVisible(false);
         }
         if (outsourcedRadio.isSelected()) {
             compHBox.setVisible(true);
-            machineHBox.setVisible(false);
+            machHBox.setVisible(false);
         }
     }
 
     @FXML public void saveBtnAction(ActionEvent event) {
         try {
             int id = partToUpdate.getPartID(); // Part that'll be updated
-            String name = nameTextField.getText();
+            String name = nameTextField.getText(); // No need to parse since input already passed in as String
             double price = Double.parseDouble(priceTextField.getText());
             int inv = Integer.parseInt(invTextField.getText());
             int max = Integer.parseInt(maxTextField.getText());
@@ -111,7 +111,7 @@ public class UpdatePartController implements Initializable {
 
     private void backToMain(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
-        MainScreenController controller = new MainScreenController(inv);
+        MainScreenController controller = new MainScreenController(inventory);
         loader.setController(controller);
         Parent root = loader.load();
         Scene scene = new Scene(root);
@@ -122,10 +122,11 @@ public class UpdatePartController implements Initializable {
     }
 
     private void generateTextFields() {
+        // Displays TextFields of Part that was selected to be updated
         if (partToUpdate instanceof InHouse) {
             InHouse part = (InHouse)partToUpdate; // casting partToUpdate to more-specific InHouse Part (broad to narrow)
             idTextField.setText(String.valueOf(part.getPartID()));
-            nameTextField.setText(part.getPartName());
+            nameTextField.setText(String.valueOf(part.getPartName()));
             priceTextField.setText(String.valueOf(part.getPartPrice()));
             invTextField.setText(String.valueOf(part.getPartInv()));
             maxTextField.setText(String.valueOf(part.getPartMax()));
@@ -134,13 +135,13 @@ public class UpdatePartController implements Initializable {
             machineIDTextField.setText(String.valueOf(part.getMachineID()));
             // Only show elements related to InHouse
             inHouseRadio.setSelected(true);
-            machineHBox.setVisible(true);
+            machHBox.setVisible(true);
             compHBox.setVisible(false);
         }
         if (partToUpdate instanceof Outsourced) {
             Outsourced part = (Outsourced)partToUpdate; // casting partToUpdate to more-specific Outsourced Part (broad to narrow)
             idTextField.setText(String.valueOf(part.getPartID()));
-            nameTextField.setText(part.getPartName());
+            nameTextField.setText(String.valueOf(part.getPartName()));
             priceTextField.setText(String.valueOf(part.getPartPrice()));
             invTextField.setText(String.valueOf(part.getPartInv()));
             maxTextField.setText(String.valueOf(part.getPartMax()));
@@ -150,7 +151,7 @@ public class UpdatePartController implements Initializable {
             // Only show elements related to Outsourced
             outsourcedRadio.setSelected(true);
             compHBox.setVisible(true);
-            machineHBox.setVisible(false);
+            machHBox.setVisible(false);
         }
     }
 }
